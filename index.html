@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SIPENOR - Sistem Booking & Penomoran Surat Keluar (Kecamatan Cinere & Kelurahan - Perwal Depok No 17/2025)</title>
-    <!-- Tailwind CSS Script -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         window.tailwind = window.tailwind || {};
@@ -20,6 +19,7 @@
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         .slider-container {
             display: flex;
@@ -29,11 +29,9 @@
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col">
 
-    <!-- LOGIN / ROLE SELECTION OVERLAY -->
     <div id="auth-overlay" class="fixed inset-0 bg-slate-900/90 backdrop-blur-md z-50 flex items-center justify-center p-0 hidden animate-in fade-in zoom-in duration-200">
         <div class="bg-white w-full h-full md:h-[85vh] md:max-w-5xl md:rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row border border-slate-100 relative">
             
-            <!-- Close Button -->
             <button type="button" onclick="closeAuthOverlay()" class="absolute top-4 right-4 md:top-6 md:right-6 z-50 w-10 h-10 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-full flex items-center justify-center transition-all shadow-sm">
                 <i class="fa-solid fa-xmark text-xl"></i>
             </button>
@@ -54,7 +52,7 @@
                 </div>
 
                 <div class="relative z-10 space-y-3 my-auto">
-                    <span class="inline-block bg-amber-400 text-slate-950 font-bold px-3 py-1 rounded-full text-xs uppercase tracking-wider shadow-sm">SIPENOR V2.5 API SYNC</span>
+                    <span class="inline-block bg-amber-400 text-slate-950 font-bold px-3 py-1 rounded-full text-xs uppercase tracking-wider shadow-sm">SIPENOR V2.9 API & DRIVE SYNC</span>
                     <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-tight">SIPENOR KECAMATAN CINERE</h2>
                     <p class="text-slate-300 text-xs md:text-sm leading-relaxed max-w-md">
                         Sistem Penomoran & Booking Surat Keluar terintegrasi Google Sheets di Lingkungan Kecamatan dan Kelurahan se-Kecamatan Cinere Berdasarkan Perwal Depok No. 17 Tahun 2025.
@@ -67,7 +65,7 @@
                 </div>
             </div>
 
-            <!-- Right Side: Clean Login Form -->
+            <!-- Right Side: Clean Login / Registration Form -->
             <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-center bg-white overflow-y-auto">
                 <div class="max-w-md w-full mx-auto space-y-6">
                     
@@ -77,7 +75,7 @@
                             <p id="auth-hint" class="text-xs text-slate-500">Silakan login untuk melanjutkan</p>
                         </div>
                         <button type="button" id="toggle-register-btn" onclick="toggleRegisterMode()" class="text-xs font-bold text-indigo-600 hover:underline">
-                            Daftar Akun Mandiri
+                            Daftar Akun Pengguna
                         </button>
                     </div>
 
@@ -90,7 +88,7 @@
                         
                         <!-- Nama Lengkap (Only for Registration) -->
                         <div id="container-register-name" class="space-y-1 hidden">
-                            <label class="block font-semibold text-slate-700">Nama Lengkap Pemohon:</label>
+                            <label class="block font-semibold text-slate-700">Nama Lengkap Pengguna:</label>
                             <div class="relative">
                                 <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
                                     <i class="fa-solid fa-user"></i>
@@ -117,7 +115,7 @@
                                 <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
                                     <i class="fa-solid fa-envelope"></i>
                                 </span>
-                                <input type="text" id="login-username" required placeholder="Masukkan email atau ID..." class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none bg-slate-50" value="pemohon@cinere.depok.go.id">
+                                <input type="text" id="login-username" required placeholder="pemohon@cinere.depok.go.id" class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none bg-slate-50">
                             </div>
                         </div>
 
@@ -127,11 +125,15 @@
                                 <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
                                     <i class="fa-solid fa-lock"></i>
                                 </span>
-                                <input type="password" id="login-password" required placeholder="Masukkan password..." class="w-full pl-10 pr-10 py-3 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none bg-slate-50" value="123456">
+                                <input type="password" id="login-password" required placeholder="Masukkan password..." class="w-full pl-10 pr-10 py-3 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none bg-slate-50">
+                                <button type="button" onclick="togglePasswordVisibility()" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 focus:outline-none">
+                                    <i id="password-eye-icon" class="fa-solid fa-eye"></i>
+                                </button>
                             </div>
                         </div>
 
-                        <div class="space-y-2 pt-1">
+                        <!-- Login Sebagai section (Hidden automatically during registration mode) -->
+                        <div id="container-login-role-choice" class="space-y-2 pt-1">
                             <label class="block font-semibold text-slate-700">Login Sebagai:</label>
                             <div class="grid grid-cols-3 gap-2">
                                 <label onclick="setLoginRoleMode('pengguna')" class="cursor-pointer">
@@ -174,7 +176,6 @@
         </div>
     </div>
 
-    <!-- MAIN APP HEADER -->
     <header class="bg-indigo-700 text-white shadow-md sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center space-x-3">
@@ -193,21 +194,19 @@
                     <button type="button" onclick="switchRole('dashboard')" id="btn-role-dashboard" class="px-3 py-1.5 text-xs font-semibold rounded-lg transition-all bg-white text-indigo-900 shadow-sm">
                         <i class="fa-solid fa-chart-pie mr-1"></i> Dashboard
                     </button>
-                    <button type="button" onclick="switchRole('booking')" id="btn-role-booking" class="px-3 py-1.5 text-xs font-semibold rounded-lg transition-all text-indigo-200 hover:text-white">
-                        <i class="fa-solid fa-ticket mr-1"></i> Booking
+                    <button type="button" onclick="switchRole('booking')" id="btn-role-booking" class="px-3 py-1.5 text-xs font-semibold rounded-lg transition-all text-indigo-200 hover:text-white hidden">
+                        <i class="fa-solid fa-ticket mr-1"></i> Booking Surat
                     </button>
                     <button type="button" onclick="handleAdminMenuClick()" id="btn-role-admin" class="px-3 py-1.5 text-xs font-semibold rounded-lg transition-all text-indigo-200 hover:text-white">
                         <i class="fa-solid fa-user-shield mr-1"></i> Admin & Regulasi
                     </button>
                 </div>
 
-                <div class="flex items-center space-x-2 pl-2 border-l border-indigo-600">
-                    <div class="text-right hidden sm:block">
-                        <p id="header-user-name" class="text-xs font-bold">Warga / Pemohon Default</p>
-                        <p id="header-user-role" class="text-[10px] text-indigo-200 capitalize">Pengguna (Kecamatan Cinere)</p>
-                    </div>
-                    <button type="button" onclick="logoutSession()" title="Keluar / Ganti Akun" class="p-2 bg-indigo-800 hover:bg-indigo-900 text-indigo-200 hover:text-white rounded-xl transition-all">
-                        <i class="fa-solid fa-power-off text-sm"></i>
+                <!-- Logout Button (Hidden until login session is active) -->
+                <div id="container-logout-btn" class="flex items-center space-x-2 pl-2 border-l border-indigo-600 hidden">
+                    <button type="button" onclick="logoutSession()" title="Keluar / Ganti Akun" class="px-3 py-1.5 bg-indigo-800 hover:bg-indigo-900 text-indigo-200 hover:text-white rounded-xl transition-all text-xs font-semibold flex items-center space-x-1.5 shadow-sm">
+                        <i class="fa-solid fa-power-off text-xs"></i>
+                        <span>Keluar / Logout</span>
                     </button>
                 </div>
             </div>
@@ -216,7 +215,6 @@
 
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
-        <!-- Global Notification Box -->
         <div id="notification-box" class="hidden mb-6 p-4 rounded-xl border flex items-start space-x-3 transition-all duration-300 shadow-sm">
             <div id="notif-icon" class="text-lg mt-0.5"></div>
             <div class="flex-grow">
@@ -245,31 +243,32 @@
                         <div id="banner-slider" class="slider-container flex w-full">
                             <div class="w-full flex-shrink-0 p-6 flex flex-col items-center justify-center text-center space-y-2">
                                 <div class="flex items-center space-x-2"><i class="fa-solid fa-ticket text-amber-300"></i><span class="text-xs text-indigo-200 uppercase font-bold tracking-wider">Kecamatan Cinere</span></div>
-                                <span class="text-[11px] text-amber-300 font-medium uppercase tracking-wide">Nomor Booking Berikutnya</span>
+                                <span class="text-[11px] text-amber-300 font-medium uppercase tracking-wide">NOMOR BOOKING BERIKUTNYA</span>
                                 <span id="next-ticket-kc" class="font-mono text-5xl font-black text-amber-400 tracking-wider">001</span>
                             </div>
                             <div class="w-full flex-shrink-0 p-6 flex flex-col items-center justify-center text-center space-y-2">
                                 <div class="flex items-center space-x-2"><i class="fa-solid fa-ticket text-amber-300"></i><span class="text-xs text-indigo-200 uppercase font-bold tracking-wider">Kelurahan Cinere</span></div>
-                                <span class="text-[11px] text-amber-300 font-medium uppercase tracking-wide">Nomor Booking Berikutnya</span>
+                                <span class="text-[11px] text-amber-300 font-medium uppercase tracking-wide">NOMOR BOOKING BERIKUTNYA</span>
                                 <span id="next-ticket-klc" class="font-mono text-5xl font-black text-amber-400 tracking-wider">001</span>
                             </div>
                             <div class="w-full flex-shrink-0 p-6 flex flex-col items-center justify-center text-center space-y-2">
                                 <div class="flex items-center space-x-2"><i class="fa-solid fa-ticket text-amber-300"></i><span class="text-xs text-indigo-200 uppercase font-bold tracking-wider">Kelurahan Gandul</span></div>
-                                <span class="text-[11px] text-amber-300 font-medium uppercase tracking-wide">Nomor Booking Berikutnya</span>
+                                <span class="text-[11px] text-amber-300 font-medium uppercase tracking-wide">NOMOR BOOKING BERIKUTNYA</span>
                                 <span id="next-ticket-klg" class="font-mono text-5xl font-black text-amber-400 tracking-wider">001</span>
                             </div>
                             <div class="w-full flex-shrink-0 p-6 flex flex-col items-center justify-center text-center space-y-2">
                                 <div class="flex items-center space-x-2"><i class="fa-solid fa-ticket text-amber-300"></i><span class="text-xs text-indigo-200 uppercase font-bold tracking-wider">Kelurahan Pangkalan Jati</span></div>
-                                <span class="text-[11px] text-amber-300 font-medium uppercase tracking-wide">Nomor Booking Berikutnya</span>
+                                <span class="text-[11px] text-amber-300 font-medium uppercase tracking-wide">NOMOR BOOKING BERIKUTNYA</span>
                                 <span id="next-ticket-klp" class="font-mono text-5xl font-black text-amber-400 tracking-wider">001</span>
                             </div>
                             <div class="w-full flex-shrink-0 p-6 flex flex-col items-center justify-center text-center space-y-2">
                                 <div class="flex items-center space-x-2"><i class="fa-solid fa-ticket text-amber-300"></i><span class="text-xs text-indigo-200 uppercase font-bold tracking-wider">Kelurahan Pangkalan Jati Baru</span></div>
-                                <span class="text-[11px] text-amber-300 font-medium uppercase tracking-wide">Nomor Booking Berikutnya</span>
+                                <span class="text-[11px] text-amber-300 font-medium uppercase tracking-wide">NOMOR BOOKING BERIKUTNYA</span>
                                 <span id="next-ticket-klpb" class="font-mono text-5xl font-black text-amber-400 tracking-wider">001</span>
                             </div>
                         </div>
                     </div>
+                    <!-- Centered Slider Controls -->
                     <div class="flex justify-center space-x-2">
                         <button type="button" onclick="slideUnitBanner(-1)" class="w-9 h-9 rounded-full bg-white/25 hover:bg-white/40 text-white flex items-center justify-center transition-all shadow-md"><i class="fa-solid fa-chevron-left text-xs"></i></button>
                         <button type="button" onclick="slideUnitBanner(1)" class="w-9 h-9 rounded-full bg-white/25 hover:bg-white/40 text-white flex items-center justify-center transition-all shadow-md"><i class="fa-solid fa-chevron-right text-xs"></i></button>
@@ -277,27 +276,72 @@
                 </div>
             </div>
 
-            <!-- Stats Overview -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-4">
-                    <div class="bg-indigo-100 text-indigo-700 p-4 rounded-2xl text-2xl"><i class="fa-solid fa-ticket"></i></div>
-                    <div><p class="text-xs font-semibold text-slate-500 uppercase">Total Pengajuan</p><h3 id="stat-total" class="text-2xl font-bold text-slate-900 mt-0.5">0</h3></div>
+            <!-- Stats Cards & Unit Filter -->
+            <div class="space-y-4">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+                    <h3 class="font-bold text-slate-900 text-sm flex items-center space-x-2">
+                        <i class="fa-solid fa-chart-column text-indigo-600"></i>
+                        <span>Statistik & Grafik Kinerja Surat Keluar</span>
+                    </h3>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-xs font-semibold text-slate-500"><i class="fa-solid fa-filter mr-1"></i> Pilih Unit Kerja:</span>
+                        <select id="dashboard-unit-filter" onchange="handleDashboardUnitFilterChange(this)" class="px-3 py-2 rounded-xl border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-slate-50 font-medium text-slate-700">
+                            <option value="ALL">Semua Unit Kerja (Kecamatan & Kelurahan)</option>
+                            <option value="Kecamatan Cinere">Kecamatan Cinere</option>
+                            <option value="Kelurahan Cinere">Kelurahan Cinere</option>
+                            <option value="Kelurahan Gandul">Kelurahan Gandul</option>
+                            <option value="Kelurahan Pangkalan Jati">Kelurahan Pangkalan Jati</option>
+                            <option value="Kelurahan Pangkalan Jati Baru">Kelurahan Pangkalan Jati Baru</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-4">
-                    <div class="bg-amber-100 text-amber-700 p-4 rounded-2xl text-2xl"><i class="fa-solid fa-clock"></i></div>
-                    <div><p class="text-xs font-semibold text-slate-500 uppercase">Menunggu Validasi</p><h3 id="stat-menunggu" class="text-2xl font-bold text-slate-900 mt-0.5">0</h3></div>
-                </div>
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-4">
-                    <div class="bg-emerald-100 text-emerald-700 p-4 rounded-2xl text-2xl"><i class="fa-solid fa-circle-check"></i></div>
-                    <div><p class="text-xs font-semibold text-slate-500 uppercase">Nomor Terbit (Selesai)</p><h3 id="stat-selesai" class="text-2xl font-bold text-slate-900 mt-0.5">0</h3></div>
-                </div>
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-4">
-                    <div class="bg-blue-100 text-blue-700 p-4 rounded-2xl text-2xl"><i class="fa-solid fa-calendar-day"></i></div>
-                    <div><p class="text-xs font-semibold text-slate-500 uppercase">Periode Aktif</p><h3 id="stat-bulan" class="text-sm font-bold text-slate-900 mt-1">-</h3></div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-4">
+                        <div class="bg-indigo-100 text-indigo-700 p-4 rounded-2xl text-2xl"><i class="fa-solid fa-ticket"></i></div>
+                        <div><p class="text-xs font-semibold text-slate-500 uppercase">Total Pengajuan</p><h3 id="stat-total" class="text-2xl font-bold text-slate-900 mt-0.5">0</h3></div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-4">
+                        <div class="bg-amber-100 text-amber-700 p-4 rounded-2xl text-2xl"><i class="fa-solid fa-clock"></i></div>
+                        <div><p class="text-xs font-semibold text-slate-500 uppercase">Menunggu Validasi</p><h3 id="stat-menunggu" class="text-2xl font-bold text-slate-900 mt-0.5">0</h3></div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-4">
+                        <div class="bg-emerald-100 text-emerald-700 p-4 rounded-2xl text-2xl"><i class="fa-solid fa-circle-check"></i></div>
+                        <div><p class="text-xs font-semibold text-slate-500 uppercase">Nomor Terbit (Selesai)</p><h3 id="stat-selesai" class="text-2xl font-bold text-slate-900 mt-0.5">0</h3></div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-4">
+                        <div class="bg-blue-100 text-blue-700 p-4 rounded-2xl text-2xl"><i class="fa-solid fa-calendar-day"></i></div>
+                        <div><p class="text-xs font-semibold text-slate-500 uppercase">Periode Aktif</p><h3 id="stat-bulan" class="text-sm font-bold text-slate-900 mt-1">-</h3></div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Recent Completed Table -->
+            <!-- Charts Section -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Bar Chart -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <h4 class="font-bold text-slate-900 text-sm flex items-center space-x-2">
+                        <i class="fa-solid fa-chart-bar text-indigo-600"></i>
+                        <span>Grafik Status Pengajuan per Unit Kerja</span>
+                    </h4>
+                    <div class="h-64 relative flex items-center justify-center">
+                        <canvas id="statBarChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Doughnut Chart -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <h4 class="font-bold text-slate-900 text-sm flex items-center space-x-2">
+                        <i class="fa-solid fa-chart-pie text-indigo-600"></i>
+                        <span>Proporsi Status Surat Keluar</span>
+                    </h4>
+                    <div class="h-64 relative flex items-center justify-center">
+                        <canvas id="statDoughnutChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Completed Table with Unit Filter -->
             <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <h3 class="font-bold text-slate-900 text-base flex items-center space-x-2">
@@ -305,8 +349,8 @@
                         <span>Daftar Pengajuan Terbaru (Selesai & Riwayat Resmi)</span>
                     </h3>
                     <div class="flex items-center space-x-2">
-                        <span class="text-xs font-semibold text-slate-500 hidden md:inline"><i class="fa-solid fa-filter mr-1"></i> Filter Unit Kerja:</span>
-                        <select id="dashboard-unit-filter" onchange="handleDashboardUnitFilterChange(this)" class="px-3 py-1.5 rounded-xl border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-slate-50 font-medium text-slate-700">
+                        <span class="text-xs font-semibold text-slate-500"><i class="fa-solid fa-filter mr-1"></i> Filter Unit:</span>
+                        <select id="table-unit-filter" onchange="handleTableUnitFilterChange(this)" class="px-3 py-1.5 rounded-xl border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-slate-50 font-medium text-slate-700">
                             <option value="ALL">Semua Unit Kerja</option>
                             <option value="Kecamatan Cinere">Kecamatan Cinere</option>
                             <option value="Kelurahan Cinere">Kelurahan Cinere</option>
@@ -366,8 +410,8 @@
                             <input type="text" id="pemohon-unit" required placeholder="Cth: Seksi Pemerintahan" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm">
                         </div>
                         <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Email Pemohon</label>
-                            <input type="email" id="pemohon-email" required placeholder="Cth: pemohon@cinere.depok.go.id" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm">
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">Email Pemohon (Gmail Aktif)</label>
+                            <input type="email" id="pemohon-email" required placeholder="Cth: pemohon@gmail.com" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm">
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-slate-600 mb-1">Keperluan / Jenis Surat</label>
@@ -409,11 +453,69 @@
                         </button>
                     </form>
                 </div>
+
+                <!-- Personal History -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <h3 class="font-bold text-slate-900 text-base">Riwayat Pengajuan Akun Anda</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-xs whitespace-nowrap">
+                            <thead>
+                                <tr class="bg-slate-100 text-slate-700 uppercase font-semibold">
+                                    <th class="p-3 rounded-l-xl">No. Tiket</th>
+                                    <th class="p-3">Perihal</th>
+                                    <th class="p-3">Status</th>
+                                    <th class="p-3 rounded-r-xl">Nomor Resmi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="user-history-tbody" class="divide-y divide-slate-100"></tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- ADMIN VIEW -->
         <div id="view-admin" class="space-y-8 hidden">
+            <!-- Superadmin Regulation Section (Google Drive PDF Sync) -->
+            <div id="superadmin-regulation-section" class="bg-white p-6 rounded-2xl border border-purple-200 shadow-sm space-y-4 hidden">
+                <div class="flex items-center space-x-3">
+                    <div class="bg-purple-100 text-purple-700 p-3 rounded-xl"><i class="fa-solid fa-cloud-arrow-up text-xl"></i></div>
+                    <div>
+                        <h3 class="font-bold text-slate-900 text-base">Panel Super Admin - Sinkronisasi File Regulasi Google Drive (PDF)</h3>
+                        <p class="text-xs text-slate-500">Tautkan link Google Drive PDF resmi Perwal 17/2025 agar tersinkronisasi otomatis dan dapat di-view seluruh pengguna/admin.</p>
+                    </div>
+                </div>
+                <form onsubmit="handleRegulationUpload(event)" class="space-y-3 text-xs">
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Tautan Share Google Drive PDF (Public / Anyone with the link):</label>
+                        <input type="url" id="reg-pdf-url" required placeholder="https://drive.google.com/file/d/xxxxxxx/view?usp=sharing" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-purple-500 font-mono text-slate-700">
+                    </div>
+                    <div class="flex justify-end">
+                        <button type="submit" class="px-5 py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl shadow-md transition-all">
+                            <i class="fa-solid fa-sync mr-1"></i> Sinkronkan ke Google Drive & Aplikasi
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Regulation Banner for All Roles -->
+            <div class="bg-gradient-to-r from-indigo-50 to-blue-50 p-6 rounded-2xl border border-indigo-200 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-6">
+                <div class="flex items-center space-x-4">
+                    <div class="bg-red-500 text-white p-4 rounded-2xl shadow-md">
+                        <i class="fa-solid fa-file-pdf text-3xl"></i>
+                    </div>
+                    <div>
+                        <span class="bg-indigo-100 text-indigo-800 font-bold px-2.5 py-1 rounded-full text-[10px] uppercase tracking-wider">Dokumen Regulasi Terhubung Google Drive</span>
+                        <h3 class="font-bold text-slate-900 text-lg mt-1">Peraturan Wali Kota Depok No. 17 Tahun 2025</h3>
+                        <p class="text-xs text-slate-600 mt-0.5">Pedoman Kode Klasifikasi Arsip (Tersinkronisasi Real-time).</p>
+                    </div>
+                </div>
+                <button type="button" onclick="openPdfModal()" class="w-full sm:w-auto px-6 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl text-sm shadow-md transition-all flex items-center justify-center space-x-2 shrink-0">
+                    <i class="fa-solid fa-eye"></i>
+                    <span>Preview File PDF Google Drive</span>
+                </button>
+            </div>
+
             <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <h3 class="font-bold text-slate-900 text-base flex items-center space-x-2">
@@ -462,39 +564,82 @@
                 </div>
                 <div class="pt-2 flex space-x-3">
                     <button type="button" onclick="closeFinalizeModal()" class="flex-1 py-2.5 border border-slate-300 rounded-xl">Batal</button>
-                    <button type="submit" class="flex-1 py-2.5 bg-emerald-600 text-white font-semibold rounded-xl">Terbitkan & Simpan ke Sheets</button>
+                    <button type="submit" class="flex-1 py-2.5 bg-emerald-600 text-white font-semibold rounded-xl">Terbitkan & Kirim Notifikasi Gmail</button>
                 </div>
             </form>
         </div>
     </div>
 
+    <!-- Email Simulation Modal / Notification Pop-up -->
+    <div id="modal-email-preview" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl max-w-lg w-full shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-200">
+            <div class="p-5 border-b border-slate-100 flex items-center justify-between bg-indigo-900 text-white">
+                <div class="flex items-center space-x-3">
+                    <div class="bg-white/10 p-2.5 rounded-2xl"><i class="fa-solid fa-envelope-circle-check text-xl text-amber-300"></i></div>
+                    <div>
+                        <h3 class="font-bold text-sm">Simulasi Pengiriman Email Gmail</h3>
+                        <p class="text-[11px] text-indigo-200">Notifikasi resmi terkirim otomatis ke pemohon</p>
+                    </div>
+                </div>
+                <button type="button" onclick="closeEmailModal()" class="text-white/70 hover:text-white p-2 rounded-lg"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="p-6 space-y-4 text-xs">
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-2">
+                    <div class="flex justify-between border-b pb-2"><span class="text-slate-500 font-semibold">Kepada (Gmail Pemohon):</span><span id="email-preview-to" class="font-bold text-slate-800">pemohon@gmail.com</span></div>
+                    <div class="flex justify-between border-b pb-2"><span class="text-slate-500 font-semibold">Subjek:</span><span id="email-preview-subject" class="font-bold text-indigo-700">Notifikasi SIPENOR Cinere</span></div>
+                    <div><span class="text-slate-500 font-semibold block mb-1">Isi Pesan:</span><p id="email-preview-body" class="text-slate-700 bg-white p-3 rounded-xl border leading-relaxed">-</p></div>
+                </div>
+                <div class="pt-2 flex justify-end">
+                    <button type="button" onclick="closeEmailModal()" class="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl shadow-md">Tutup & Selesai</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PDF Viewer Modal -->
+    <div id="modal-pdf-viewer" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl max-w-5xl w-full h-[90vh] shadow-2xl flex flex-col overflow-hidden">
+            <div class="p-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+                <div class="flex items-center space-x-3">
+                    <div class="bg-red-100 text-red-600 p-2 rounded-xl"><i class="fa-solid fa-file-pdf text-lg"></i></div>
+                    <div>
+                        <h3 class="font-bold text-slate-900 text-sm">Preview Google Drive PDF - Perwal Kota Depok No. 17 Tahun 2025</h3>
+                        <p class="text-[11px] text-slate-500">Lembaran Berita Daerah Kota Depok Tahun 2025 Nomor 17</p>
+                    </div>
+                </div>
+                <button type="button" onclick="closePdfModal()" class="text-slate-400 hover:text-slate-700 p-2 rounded-lg hover:bg-slate-200"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="flex-grow bg-slate-100 relative flex items-center justify-center p-4">
+                <iframe id="pdf-iframe" src="" class="w-full h-full rounded-xl border border-slate-300 shadow-inner bg-white"></iframe>
+            </div>
+            <div class="p-3 border-t border-slate-200 bg-slate-50 flex items-center justify-between text-xs">
+                <span class="text-slate-500 font-medium"><i class="fa-solid fa-cloud text-indigo-600 mr-1"></i> Tersinkronisasi Real-Time dari Google Drive</span>
+                <button type="button" onclick="closePdfModal()" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold rounded-xl">Tutup Preview</button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // GANTI URL DI BAWAH INI DENGAN WEB APP URL DARI GOOGLE APPS SCRIPT ANDA
-        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxhY5D7JoiiCG8q6bPpo6a0j06DGBkMYJRzHyaCZAO2nHAn-7LdvsNYlIapYJC-A8tM/exec";
+        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzBVvB1PxLiLJm5HDUFGkIcsqgKR7qtdgJ_9UPvHiMF0LV6L10zcm4Mj-goZTh2kYU88Q/exec";
 
         let appState = {
-            session: { role: 'pengguna', name: 'Warga / Pemohon Default', unit: 'Kecamatan Cinere', email: 'pemohon@cinere.depok.go.id' },
+            session: null,
             role: 'dashboard',
-            currentMonthRaw: new Date(),
             queueData: [],
             registeredUsers: [],
             adminAccounts: [],
+            customPdfUrl: "https://drive.google.com/file/d/1B2g3H4i5J6k7L8m9N0pQ/preview",
             dashboardUnitFilter: 'ALL',
-            dashboardCurrentPage: 1,
-            dashboardItemsPerPage: 10,
+            tableUnitFilter: 'ALL',
             currentSlideIndex: 0,
             totalSlides: 5,
-            autoSlideTimer: null
+            autoSlideTimer: null,
+            barChartInstance: null,
+            doughnutChartInstance: null
         };
 
-        const getRomanMonth = (monthIndex) => ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"][monthIndex];
-
-        // 1. Fetch All Data From Google Sheets API
         async function fetchAllDataFromSheets() {
-            if(APPS_SCRIPT_URL.includes("MASUKKAN_URL")) {
-                console.warn("Apps Script URL belum disetel.");
-                return;
-            }
+            if(APPS_SCRIPT_URL.includes("MASUKKAN_URL")) return;
             try {
                 const response = await fetch(`${APPS_SCRIPT_URL}?action=getAllData`);
                 const result = await response.json();
@@ -502,6 +647,9 @@
                     appState.queueData = result.queueData || [];
                     appState.registeredUsers = result.registeredUsers || [];
                     appState.adminAccounts = result.adminAccounts || [];
+                    if(result.regulationPdfUrl) {
+                        appState.customPdfUrl = convertGoogleDriveUrl(result.regulationPdfUrl);
+                    }
                     updateUI();
                 }
             } catch(err) {
@@ -509,7 +657,18 @@
             }
         }
 
-        // 2. Save Queue to Google Sheets API
+        function convertGoogleDriveUrl(url) {
+            if(!url) return appState.customPdfUrl;
+            if(url.includes("drive.google.com")) {
+                if(url.includes("/view")) {
+                    return url.replace(/\/view.*$/, "/preview");
+                } else if(!url.includes("/preview") && url.includes("/file/d/")) {
+                    return url + (url.endsWith("/") ? "" : "/") + "preview";
+                }
+            }
+            return url;
+        }
+
         async function saveQueueToSheet(item) {
             if(APPS_SCRIPT_URL.includes("MASUKKAN_URL")) return;
             try {
@@ -525,7 +684,21 @@
             }
         }
 
-        // 3. Update Status in Google Sheets API
+        async function registerUserToSheet(user) {
+            if(APPS_SCRIPT_URL.includes("MASUKKAN_URL")) return;
+            try {
+                await fetch(APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'registerUser', user: user })
+                });
+                setTimeout(fetchAllDataFromSheets, 1500);
+            } catch(err) {
+                console.error("Gagal menyimpan user ke Sheets:", err);
+            }
+        }
+
         async function updateQueueStatusInSheet(id, status, finalNumber) {
             if(APPS_SCRIPT_URL.includes("MASUKKAN_URL")) return;
             try {
@@ -541,67 +714,245 @@
             }
         }
 
+        async function updateRegulationInSheet(pdfUrl) {
+            if(APPS_SCRIPT_URL.includes("MASUKKAN_URL")) return;
+            try {
+                await fetch(APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'updateRegulation', pdfUrl: pdfUrl })
+                });
+            } catch(err) {
+                console.error("Gagal memperbarui regulasi ke Sheets:", err);
+            }
+        }
+
         window.onload = function() {
             const todayDate = new Date();
-            document.getElementById('pemohon-tanggal').value = todayDate.toISOString().split('T')[0];
+            const dateInput = document.getElementById('pemohon-tanggal');
+            if(dateInput) dateInput.value = todayDate.toISOString().split('T')[0];
+            
+            appState.queueData = [
+                { id: 'KC-001', queueNumber: 1, kantor: 'Kecamatan Cinere', unit: 'Seksi Pemerintahan', email: 'pemohon@gmail.com', jenis: 'Surat Dinas', ttType: 'TTE', perihal: 'Rapat Koordinasi', tujuan: 'Walikota', tanggal: '2026-03-30', status: 'Selesai', finalNumber: '100.2/001/III/2026' }
+            ];
+
             fetchAllDataFromSheets();
+            updateUI();
+            startAutoSlide();
+            initCharts();
         };
 
         function setLoginRoleMode(roleType) {
-            document.getElementById('login-role-type').value = roleType;
+            const roleInput = document.getElementById('login-role-type');
+            if(roleInput) roleInput.value = roleType;
+        }
+
+        function toggleRegisterMode() {
+            const isRegInput = document.getElementById('is-register-mode');
+            const regNameContainer = document.getElementById('container-register-name');
+            const roleChoiceContainer = document.getElementById('container-login-role-choice');
+            const titleEl = document.getElementById('auth-form-title');
+            const hintEl = document.getElementById('auth-hint');
+            const submitText = document.getElementById('auth-submit-text');
+            const toggleBtn = document.getElementById('toggle-register-btn');
+            const usernameLabel = document.getElementById('label-username-title');
+            
+            const currentlyReg = isRegInput.value === 'true';
+            if(!currentlyReg) {
+                isRegInput.value = 'true';
+                if(regNameContainer) regNameContainer.classList.remove('hidden');
+                if(roleChoiceContainer) roleChoiceContainer.classList.add('hidden');
+                if(titleEl) titleEl.innerText = 'Daftar Akun Pengguna';
+                if(hintEl) hintEl.innerText = 'Gunakan email Gmail aktif untuk pendaftaran.';
+                if(submitText) submitText.innerText = 'Daftar & Masuk';
+                if(toggleBtn) toggleBtn.innerText = 'Sudah punya akun? Login';
+                if(usernameLabel) usernameLabel.innerText = 'Email Gmail Aktif (@gmail.com):';
+            } else {
+                isRegInput.value = 'false';
+                if(regNameContainer) regNameContainer.classList.add('hidden');
+                if(roleChoiceContainer) roleChoiceContainer.classList.remove('hidden');
+                if(titleEl) titleEl.innerText = 'Selamat Datang';
+                if(hintEl) hintEl.innerText = 'Silakan login untuk melanjutkan';
+                if(submitText) submitText.innerText = 'Login Masuk';
+                if(toggleBtn) toggleBtn.innerText = 'Daftar Akun Pengguna';
+                if(usernameLabel) usernameLabel.innerText = 'Email / ID Pengguna / Username:';
+            }
+        }
+
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('login-password');
+            const eyeIcon = document.getElementById('password-eye-icon');
+            if(passwordInput && eyeIcon) {
+                if(passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    eyeIcon.className = 'fa-solid fa-eye-slash';
+                } else {
+                    passwordInput.type = 'password';
+                    eyeIcon.className = 'fa-solid fa-eye';
+                }
+            }
         }
 
         function handleLoginSubmit(e) {
             e.preventDefault();
-            const username = document.getElementById('login-username').value.trim();
-            const roleType = document.getElementById('login-role-type').value;
-            appState.session = { role: roleType, name: username, unit: document.getElementById('login-admin-unit').value, email: username };
-            document.getElementById('auth-overlay').classList.add('hidden');
-            switchRole(roleType === 'pengguna' ? 'booking' : 'admin');
+            const usernameInput = document.getElementById('login-username');
+            const roleTypeInput = document.getElementById('login-role-type');
+            const unitInput = document.getElementById('login-admin-unit');
+            const regNameInput = document.getElementById('reg-fullname');
+            const isRegInput = document.getElementById('is-register-mode');
+            
+            const username = usernameInput ? usernameInput.value.trim() : '';
+            const roleType = isRegInput && isRegInput.value === 'true' ? 'pengguna' : (roleTypeInput ? roleTypeInput.value : 'pengguna');
+            const unit = unitInput ? unitInput.value : 'Kecamatan Cinere';
+            const regName = regNameInput ? regNameInput.value.trim() : '';
+            const isReg = isRegInput ? isRegInput.value === 'true' : false;
+            
+            let displayName = username || 'Pengguna';
+            if(isReg) {
+                if(!regName) {
+                    showAuthError('Nama lengkap wajib diisi.');
+                    return;
+                }
+                if(!username.toLowerCase().includes('@gmail.com')) {
+                    showAuthError('Silakan gunakan alamat email Gmail aktif yang valid (@gmail.com).');
+                    return;
+                }
+                displayName = regName;
+                const newUser = {
+                    id: 'USR-' + Date.now(),
+                    name: regName,
+                    email: username,
+                    unit: unit,
+                    password: document.getElementById('login-password').value
+                };
+                appState.registeredUsers.push(newUser);
+                registerUserToSheet(newUser);
+            }
+
+            appState.session = { role: roleType, name: displayName, unit: unit, email: username };
+            
+            const overlay = document.getElementById('auth-overlay');
+            if(overlay) overlay.classList.add('hidden');
+
+            const btnBooking = document.getElementById('btn-role-booking');
+            const logoutContainer = document.getElementById('container-logout-btn');
+            const superadminSec = document.getElementById('superadmin-regulation-section');
+            
+            if(logoutContainer) logoutContainer.classList.remove('hidden');
+
+            if(btnBooking) {
+                if(roleType === 'pengguna') {
+                    btnBooking.classList.remove('hidden');
+                } else {
+                    btnBooking.classList.add('hidden');
+                }
+            }
+
+            if(superadminSec) {
+                if(roleType === 'superadmin') {
+                    superadminSec.classList.remove('hidden');
+                } else {
+                    superadminSec.classList.add('hidden');
+                }
+            }
+
+            if(roleType === 'pengguna') {
+                switchRole('booking');
+                const pKantor = document.getElementById('pemohon-kantor');
+                const pEmail = document.getElementById('pemohon-email');
+                if(pKantor) pKantor.value = unit;
+                if(pEmail) pEmail.value = username;
+            } else {
+                switchRole('admin');
+            }
             updateUI();
+            showNotification('Login Berhasil', `Selamat datang, ${displayName}!`);
         }
 
         function logoutSession() {
             appState.session = null;
+            const btnBooking = document.getElementById('btn-role-booking');
+            const logoutContainer = document.getElementById('container-logout-btn');
+            const superadminSec = document.getElementById('superadmin-regulation-section');
+            
+            if(btnBooking) btnBooking.classList.add('hidden');
+            if(logoutContainer) logoutContainer.classList.add('hidden');
+            if(superadminSec) superadminSec.classList.add('hidden');
+            
             switchRole('dashboard');
-            document.getElementById('auth-overlay').classList.remove('hidden');
+            const overlay = document.getElementById('auth-overlay');
+            if(overlay) overlay.classList.remove('hidden');
+            showNotification('Sesi Berakhir', 'Anda telah keluar dari aplikasi.');
+        }
+
+        function handleAdminMenuClick() {
+            if (appState.session && (appState.session.role === 'admin' || appState.session.role === 'superadmin')) {
+                switchRole('admin');
+            } else {
+                const overlay = document.getElementById('auth-overlay');
+                if(overlay) overlay.classList.remove('hidden');
+            }
         }
 
         function switchRole(role) {
             appState.role = role;
             ['dashboard', 'booking', 'admin'].forEach(r => {
-                document.getElementById('view-' + r).classList.toggle('hidden', r !== role);
+                const el = document.getElementById('view-' + r);
+                if(el) el.classList.toggle('hidden', r !== role);
             });
             updateUI();
         }
 
         function showNotification(title, message) {
             const box = document.getElementById('notification-box');
-            document.getElementById('notif-title').innerText = title;
-            document.getElementById('notif-message').innerText = message;
+            const tEl = document.getElementById('notif-title');
+            const mEl = document.getElementById('notif-message');
+            if(!box || !tEl || !mEl) return;
+
+            tEl.innerText = title;
+            mEl.innerText = message;
             box.className = "mb-6 p-4 rounded-xl border bg-emerald-50 border-emerald-200 text-emerald-900 flex items-center space-x-3";
             box.classList.remove('hidden');
             setTimeout(() => box.classList.add('hidden'), 5000);
         }
 
+        function hideNotification() {
+            const box = document.getElementById('notification-box');
+            if(box) box.classList.add('hidden');
+        }
+
         function handleBookingSubmit(e) {
             e.preventDefault();
-            const kantor = document.getElementById('pemohon-kantor').value;
-            const prefix = kantor === 'Kecamatan Cinere' ? 'KC' : 'KLC';
+            const kantorEl = document.getElementById('pemohon-kantor');
+            const unitEl = document.getElementById('pemohon-unit');
+            const emailEl = document.getElementById('pemohon-email');
+            const jenisEl = document.getElementById('pemohon-jenis');
+            const ttEl = document.getElementById('pemohon-tt-type');
+            const perihalEl = document.getElementById('pemohon-perihal');
+            const tujuanEl = document.getElementById('pemohon-tujuan');
+            const tanggalEl = document.getElementById('pemohon-tanggal');
+
+            if(!kantorEl) return;
+
+            const kantor = kantorEl.value;
+            const prefix = kantor === 'Kecamatan Cinere' ? 'KC' : (kantor === 'Kelurahan Cinere' ? 'KLC' : (kantor === 'Kelurahan Gandul' ? 'KLG' : (kantor === 'Kelurahan Pangkalan Jati' ? 'KLP' : 'KLPB')));
             const count = appState.queueData.filter(i => i.id && i.id.startsWith(prefix)).length + 1;
             const ticketId = prefix + '-' + String(count).padStart(3, '0');
+
+            const emailVal = emailEl ? emailEl.value : 'pemohon@gmail.com';
 
             const newItem = {
                 id: ticketId,
                 queueNumber: count,
                 kantor: kantor,
-                unit: document.getElementById('pemohon-unit').value,
-                email: document.getElementById('pemohon-email').value,
-                jenis: document.getElementById('pemohon-jenis').value,
-                ttType: document.getElementById('pemohon-tt-type').value,
-                perihal: document.getElementById('pemohon-perihal').value,
-                tujuan: document.getElementById('pemohon-tujuan').value,
-                tanggal: document.getElementById('pemohon-tanggal').value,
+                unit: unitEl ? unitEl.value : '',
+                email: emailVal,
+                jenis: jenisEl ? jenisEl.value : '',
+                ttType: ttEl ? ttEl.value : 'TTE',
+                perihal: perihalEl ? perihalEl.value : '',
+                tujuan: tujuanEl ? tujuanEl.value : '',
+                tanggal: tanggalEl ? tanggalEl.value : '',
                 timestamp: new Date().toLocaleString('id-ID'),
                 status: 'Menunggu',
                 finalNumber: ''
@@ -610,91 +961,268 @@
             appState.queueData.unshift(newItem);
             saveQueueToSheet(newItem);
             updateUI();
+            
             showNotification('Booking Berhasil!', 'Nomor tiket ' + ticketId + ' tersimpan ke Google Sheets.');
+            triggerEmailSimulation(emailVal, 'Konfirmasi Pengajuan Booking Nomor Surat', `Halo, pengajuan booking nomor surat Anda dengan nomor tiket ${ticketId} untuk keperluan "${newItem.perihal}" telah diterima dan berstatus MENUNGGU validasi.`);
+            
             document.getElementById('form-booking').reset();
         }
 
+        function triggerEmailSimulation(toEmail, subject, bodyText) {
+            const modal = document.getElementById('modal-email-preview');
+            const toEl = document.getElementById('email-preview-to');
+            const subEl = document.getElementById('email-preview-subject');
+            const bodyEl = document.getElementById('email-preview-body');
+
+            if(modal && toEl && subEl && bodyEl) {
+                toEl.innerText = toEmail;
+                subEl.innerText = subject;
+                bodyEl.innerText = bodyText;
+                modal.classList.remove('hidden');
+            }
+        }
+
+        function closeEmailModal() {
+            const modal = document.getElementById('modal-email-preview');
+            if(modal) modal.classList.add('hidden');
+        }
+
+        function slideUnitBanner(dir) {
+            appState.currentSlideIndex = (appState.currentSlideIndex + dir + appState.totalSlides) % appState.totalSlides;
+            const slider = document.getElementById('banner-slider');
+            if(slider) slider.style.transform = `translateX(-${appState.currentSlideIndex * 100}%)`;
+        }
+
+        function startAutoSlide() {
+            if(appState.autoSlideTimer) clearInterval(appState.autoSlideTimer);
+            appState.autoSlideTimer = setInterval(() => {
+                slideUnitBanner(1);
+            }, 10000);
+        }
+
+        function handleDashboardUnitFilterChange(selectEl) {
+            appState.dashboardUnitFilter = selectEl.value;
+            updateUI();
+        }
+
+        function handleTableUnitFilterChange(selectEl) {
+            appState.tableUnitFilter = selectEl.value;
+            updateUI();
+        }
+
+        function handleRegulationUpload(e) {
+            e.preventDefault();
+            const urlInput = document.getElementById('reg-pdf-url');
+            if(urlInput && urlInput.value) {
+                const rawUrl = urlInput.value.trim();
+                const converted = convertGoogleDriveUrl(rawUrl);
+                appState.customPdfUrl = converted;
+                updateRegulationInSheet(rawUrl);
+                showNotification('Berhasil', 'Tautan PDF Google Drive regulasi berhasil disinkronkan ke seluruh aplikasi.');
+                urlInput.value = '';
+            }
+        }
+
+        function openPdfModal() {
+            const modal = document.getElementById('modal-pdf-viewer');
+            const iframe = document.getElementById('pdf-iframe');
+            if(modal && iframe) {
+                iframe.src = appState.customPdfUrl;
+                modal.classList.remove('hidden');
+            }
+        }
+
+        function closePdfModal() {
+            const modal = document.getElementById('modal-pdf-viewer');
+            if(modal) modal.classList.add('hidden');
+        }
+
         function updateUI() {
-            document.getElementById('stat-total').innerText = appState.queueData.length;
-            document.getElementById('stat-menunggu').innerText = appState.queueData.filter(i => i.status === 'Menunggu').length;
-            document.getElementById('stat-selesai').innerText = appState.queueData.filter(i => i.status === 'Selesai').length;
+            let filteredQueue = appState.queueData;
+            if(appState.dashboardUnitFilter !== 'ALL') {
+                filteredQueue = appState.queueData.filter(i => i.kantor === appState.dashboardUnitFilter);
+            }
+
+            const totalStat = document.getElementById('stat-total');
+            const menStat = document.getElementById('stat-menunggu');
+            const selStat = document.getElementById('stat-selesai');
+            const statBulan = document.getElementById('stat-bulan');
+            
+            if(totalStat) totalStat.innerText = filteredQueue.length;
+            if(menStat) menStat.innerText = filteredQueue.filter(i => i.status === 'Menunggu').length;
+            if(selStat) selStat.innerText = filteredQueue.filter(i => i.status === 'Selesai').length;
+            if(statBulan) statBulan.innerText = new Date().toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
+
+            const unitList = [
+                { kantor: 'Kecamatan Cinere', prefix: 'KC', el: 'next-ticket-kc' },
+                { kantor: 'Kelurahan Cinere', prefix: 'KLC', el: 'next-ticket-klc' },
+                { kantor: 'Kelurahan Gandul', prefix: 'KLG', el: 'next-ticket-klg' },
+                { kantor: 'Kelurahan Pangkalan Jati', prefix: 'KLP', el: 'next-ticket-klp' },
+                { kantor: 'Kelurahan Pangkalan Jati Baru', prefix: 'KLPB', el: 'next-ticket-klpb' }
+            ];
+
+            unitList.forEach(u => {
+                const count = appState.queueData.filter(i => i.id && i.id.startsWith(u.prefix)).length;
+                const el = document.getElementById(u.el);
+                if(el) el.innerText = String(count + 1).padStart(3, '0');
+            });
+
+            let tableQueue = appState.queueData;
+            if(appState.tableUnitFilter !== 'ALL') {
+                tableQueue = appState.queueData.filter(i => i.kantor === appState.tableUnitFilter);
+            }
 
             const recentTbody = document.getElementById('dashboard-recent-tbody');
-            recentTbody.innerHTML = '';
-            appState.queueData.filter(i => i.status === 'Selesai').forEach(item => {
-                recentTbody.innerHTML += `
-                    <tr class="border-b">
-                        <td class="p-3 font-mono font-bold text-indigo-700">${item.id}</td>
-                        <td class="p-3">${item.kantor} - ${item.unit}</td>
-                        <td class="p-3">${item.jenis}</td>
-                        <td class="p-3">${item.ttType}</td>
-                        <td class="p-3"><span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded text-[10px] font-bold">Selesai</span></td>
-                        <td class="p-3 font-mono font-bold">${item.finalNumber}</td>
-                    </tr>
-                `;
-            });
+            if(recentTbody) {
+                recentTbody.innerHTML = '';
+                tableQueue.filter(i => i.status === 'Selesai').forEach(item => {
+                    recentTbody.innerHTML += `
+                        <tr class="border-b hover:bg-slate-50">
+                            <td class="p-3 font-mono font-bold text-indigo-700">${item.id}</td>
+                            <td class="p-3">${item.kantor} - ${item.unit}</td>
+                            <td class="p-3">${item.jenis}</td>
+                            <td class="p-3">${item.ttType}</td>
+                            <td class="p-3"><span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded text-[10px] font-bold">Selesai</span></td>
+                            <td class="p-3 font-mono font-bold">${item.finalNumber}</td>
+                        </tr>
+                    `;
+                });
+            }
+
+            const userHistoryTbody = document.getElementById('user-history-tbody');
+            if(userHistoryTbody && appState.session) {
+                userHistoryTbody.innerHTML = '';
+                const userEmail = (appState.session.email || '').toLowerCase();
+                const userSubmissions = appState.queueData.filter(i => (i.email && i.email.toLowerCase() === userEmail) || (i.kantor === appState.session.unit));
+                
+                if(userSubmissions.length === 0) {
+                    userHistoryTbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400 italic">Belum ada riwayat pengajuan dari akun Anda.</td></tr>`;
+                } else {
+                    userSubmissions.forEach(item => {
+                        const badge = item.status === 'Selesai' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800';
+                        userHistoryTbody.innerHTML += `
+                            <tr class="border-b">
+                                <td class="p-3 font-mono font-bold text-indigo-700">${item.id}</td>
+                                <td class="p-3">${item.perihal}</td>
+                                <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${badge}">${item.status}</span></td>
+                                <td class="p-3 font-mono font-bold">${item.finalNumber || '-'}</td>
+                            </tr>
+                        `;
+                    });
+                }
+            }
 
             const adminTbody = document.getElementById('table-admin-body');
-            adminTbody.innerHTML = '';
-            appState.queueData.forEach(item => {
-                const actionBtn = item.status === 'Menunggu' 
-                    ? `<button onclick="openFinalizeModal('${item.id}')" class="px-3 py-1 bg-indigo-600 text-white rounded font-semibold">Verifikasi</button>`
-                    : `<span class="text-emerald-700 font-semibold">Selesai</span>`;
-                adminTbody.innerHTML += `
-                    <tr class="border-b">
-                        <td class="p-3 font-mono font-bold">${item.id}</td>
-                        <td class="p-3">${item.kantor}<br><span class="text-indigo-600">${item.perihal}</span></td>
-                        <td class="p-3">${item.tanggal}</td>
-                        <td class="p-3">${item.status}</td>
-                        <td class="p-3 text-center">${actionBtn}</td>
-                    </tr>
-                `;
+            if(adminTbody) {
+                adminTbody.innerHTML = '';
+                let adminQueue = appState.queueData;
+                if(appState.session && appState.session.role === 'admin') {
+                    adminQueue = adminQueue.filter(i => i.kantor === appState.session.unit);
+                }
+                adminQueue.forEach(item => {
+                    const actionBtn = item.status === 'Menunggu' 
+                        ? `<button type="button" onclick="openFinalizeModal('${item.id}')" class="px-3 py-1 bg-indigo-600 text-white rounded font-semibold">Verifikasi</button>`
+                        : `<span class="text-emerald-700 font-semibold">Selesai</span>`;
+                    adminTbody.innerHTML += `
+                        <tr class="border-b">
+                            <td class="p-3 font-mono font-bold">${item.id}</td>
+                            <td class="p-3">${item.kantor}<br><span class="text-indigo-600">${item.perihal}</span><br><span class="text-[10px] text-slate-400">Gmail: ${item.email || '-'}</span></td>
+                            <td class="p-3">${item.tanggal}</td>
+                            <td class="p-3">${item.status}</td>
+                            <td class="p-3 text-center">${actionBtn}</td>
+                        </tr>
+                    `;
+                });
+            }
+
+            updateCharts(filteredQueue);
+        }
+
+        function initCharts() {
+            const barCtx = document.getElementById('statBarChart').getContext('2d');
+            appState.barChartInstance = new Chart(barCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Kecamatan Cinere', 'Kel. Cinere', 'Kel. Gandul', 'Kel. Pangkalan Jati', 'Kel. Pangkalan Jati Baru'],
+                    datasets: [
+                        { label: 'Selesai', data: [0,0,0,0,0], backgroundColor: '#10b981' },
+                        { label: 'Menunggu', data: [0,0,0,0,0], backgroundColor: '#f59e0b' }
+                    ]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
             });
+
+            const doughnutCtx = document.getElementById('statDoughnutChart').getContext('2d');
+            appState.doughnutChartInstance = new Chart(doughnutCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Selesai', 'Menunggu Validasi'],
+                    datasets: [{ data: [0, 0], backgroundColor: ['#10b981', '#f59e0b'] }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+        }
+
+        function updateCharts(dataList) {
+            if(!appState.barChartInstance || !appState.doughnutChartInstance) return;
+
+            const units = ['Kecamatan Cinere', 'Kelurahan Cinere', 'Kelurahan Gandul', 'Kelurahan Pangkalan Jati', 'Kelurahan Pangkalan Jati Baru'];
+            const selesaiData = units.map(u => dataList.filter(i => i.kantor === u && i.status === 'Selesai').length);
+            const menungguData = units.map(u => dataList.filter(i => i.kantor === u && i.status === 'Menunggu').length);
+
+            appState.barChartInstance.data.datasets[0].data = selesaiData;
+            appState.barChartInstance.data.datasets[1].data = menungguData;
+            appState.barChartInstance.update();
+
+            const totalSelesai = dataList.filter(i => i.status === 'Selesai').length;
+            const totalMenunggu = dataList.filter(i => i.status === 'Menunggu').length;
+            appState.doughnutChartInstance.data.datasets[0].data = [totalSelesai, totalMenunggu];
+            appState.doughnutChartInstance.update();
+        }
+
+        function handleJenisSuratChange(el) {
+            const manContainer = document.getElementById('container-manual-jenis');
+            if(manContainer) manContainer.classList.toggle('hidden', el.value !== 'LAINNYA');
         }
 
         function openFinalizeModal(id) {
-            document.getElementById('finalize-id').value = id;
-            updateFinalNumberPreview();
-            document.getElementById('modal-finalize').classList.remove('hidden');
+            const modal = document.getElementById('modal-finalize');
+            const finId = document.getElementById('finalize-id');
+            if(modal && finId) {
+                finId.value = id;
+                modal.classList.remove('hidden');
+                updateFinalNumberPreview();
+            }
         }
 
         function closeFinalizeModal() {
-            document.getElementById('modal-finalize').classList.add('hidden');
+            const modal = document.getElementById('modal-finalize');
+            if(modal) modal.classList.add('hidden');
         }
 
         function updateFinalNumberPreview() {
-            const code = document.getElementById('finalize-perda-select').value;
-            const d = new Date();
-            document.getElementById('finalize-result-preview').value = `${code} / 001 / ${getRomanMonth(d.getMonth())} / ${d.getFullYear()}`;
+            const select = document.getElementById('finalize-perda-select');
+            const preview = document.getElementById('finalize-result-preview');
+            if(select && preview) {
+                preview.value = select.value + ' / 001 / I / 2026';
+            }
         }
 
         function handleFinalizeSubmit(e) {
             e.preventDefault();
             const id = document.getElementById('finalize-id').value;
             const finalNum = document.getElementById('finalize-result-preview').value;
-
+            
             const item = appState.queueData.find(i => i.id === id);
             if(item) {
                 item.status = 'Selesai';
                 item.finalNumber = finalNum;
                 updateQueueStatusInSheet(id, 'Selesai', finalNum);
+                triggerEmailSimulation(item.email || 'pemohon@gmail.com', 'Surat Selesai Diverifikasi - SIPENOR', `Halo, surat keluar Anda dengan nomor tiket ${item.id} dan perihal "${item.perihal}" telah selesai diverifikasi. Nomor Surat Resmi: ${finalNum}`);
             }
             closeFinalizeModal();
             updateUI();
-            showNotification('Berhasil!', 'Nomor resmi surat berhasil diterbitkan.');
-        }
-
-        function slideUnitBanner(dir) {
-            appState.currentSlideIndex = (appState.currentSlideIndex + dir + appState.totalSlides) % appState.totalSlides;
-            document.getElementById('banner-slider').style.transform = `translateX(-${appState.currentSlideIndex * 100}%)`;
-        }
-
-        function handleAdminMenuClick() { switchRole('admin'); }
-        function closeAuthOverlay() { document.getElementById('auth-overlay').classList.add('hidden'); }
-        function toggleRegisterMode() {}
-        function handleDashboardUnitFilterChange() {}
-        function handleJenisSuratChange(el) {
-            document.getElementById('container-manual-jenis').classList.toggle('hidden', el.value !== 'LAINNYA');
+            showNotification('Berhasil', 'Surat berhasil diverifikasi dan notifikasi dikirim.');
         }
     </script>
 </body>
