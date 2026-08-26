@@ -52,10 +52,10 @@
                 </div>
 
                 <div class="relative z-10 space-y-3 my-auto">
-                    <span class="inline-block bg-amber-400 text-slate-950 font-bold px-3 py-1 rounded-full text-xs uppercase tracking-wider shadow-sm">SIPENOR V3.4 GOOGLE SHEETS SYNC</span>
+                    <span class="inline-block bg-amber-400 text-slate-950 font-bold px-3 py-1 rounded-full text-xs uppercase tracking-wider shadow-sm">SIPENOR V3.9 GOOGLE SHEETS SYNC</span>
                     <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-tight">SIPENOR KECAMATAN CINERE</h2>
                     <p class="text-slate-300 text-xs md:text-sm leading-relaxed max-w-md">
-                        Sistem Penomoran & Booking Surat Keluar terintegrasi Google Spreadsheet Berdasarkan Perwal Depok No. 17 Tahun 2025.
+                        Sistem Penomoran & Booking Surat Keluar terintegrasi Google Spreadsheet Berdasarkan Perwal Depok No. 17 Tahun 2025 dengan Validasi Akun & Slot Batal.
                     </p>
                 </div>
 
@@ -76,7 +76,7 @@
 
                     <div id="auth-error-box" class="hidden p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-center space-x-2">
                         <i class="fa-solid fa-circle-exclamation text-sm shrink-0"></i>
-                        <span id="auth-error-msg">Terjadi kesalahan otentikasi.</span>
+                        <span id="auth-error-msg">Akun tidak ditemukan. Silakan hubungi admin unit.</span>
                     </div>
 
                     <form onsubmit="handleLoginSubmit(event)" class="space-y-4 text-xs">
@@ -99,7 +99,7 @@
                                 <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
                                     <i class="fa-solid fa-envelope"></i>
                                 </span>
-                                <input type="text" id="login-username" required placeholder="pemohon@cinere.depok.go.id" class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none bg-slate-50">
+                                <input type="text" id="login-username" required placeholder="pemohon@cinere.depok.go.id atau username" class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none bg-slate-50">
                             </div>
                         </div>
 
@@ -148,7 +148,7 @@
 
                         <div class="pt-2">
                             <button type="submit" id="auth-submit-btn" class="w-full py-3.5 bg-indigo-900 hover:bg-indigo-950 text-white font-semibold rounded-xl text-xs transition-all shadow-md flex items-center justify-center space-x-2">
-                                <span id="auth-submit-text">Login & Sinkronisasi DB</span>
+                                <span id="auth-submit-text">Login & Validasi Akun DB</span>
                                 <i class="fa-solid fa-arrow-right"></i>
                             </button>
                         </div>
@@ -156,7 +156,7 @@
                         <!-- Note for users without an account -->
                         <div id="auth-note-box" class="pt-2 text-center">
                             <p class="text-[11px] text-slate-500 leading-relaxed bg-slate-50 p-2.5 rounded-xl border border-slate-200">
-                                <i class="fa-solid fa-circle-info text-indigo-600 mr-1"></i> Belum memiliki akun pengguna? Silakan menghubungi <strong>Admin Kecamatan / Kelurahan</strong> terkait untuk dibuatkan akses akun.
+                                <i class="fa-solid fa-circle-info text-indigo-600 mr-1"></i> Belum memiliki akun terdaftar? Hubungi <strong>Admin Kantor Kecamatan / Kelurahan</strong> terkait untuk dibuatkan akun akses.
                             </p>
                         </div>
                     </form>
@@ -379,6 +379,15 @@
             </div>
 
             <div class="max-w-3xl mx-auto space-y-6">
+                <!-- Cancelled Slot Reuse Banner / Notice -->
+                <div id="cancelled-slot-banner" class="hidden bg-amber-50 border border-amber-200 p-4 rounded-2xl flex items-start space-x-3 shadow-sm">
+                    <div class="bg-amber-500 text-white p-2 rounded-xl text-sm mt-0.5"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                    <div class="flex-grow space-y-1">
+                        <h4 class="font-bold text-amber-900 text-sm">Tersedia Nomor Batal / Kosong untuk Unit Ini</h4>
+                        <p class="text-xs text-amber-800">Terdapat slot nomor surat yang sebelumnya dibatalkan. Anda dapat memilih untuk menggunakan kembali nomor kosong tersebut pada opsi formulir di bawah.</p>
+                    </div>
+                </div>
+
                 <div class="bg-white p-6 md:p-8 rounded-2xl border border-slate-200 shadow-sm">
                     <h3 class="font-bold text-slate-900 text-base mb-4 flex items-center space-x-2">
                         <i class="fa-solid fa-circle-plus text-indigo-600"></i>
@@ -387,7 +396,7 @@
                     <form id="form-booking" onsubmit="handleBookingSubmit(event)" class="space-y-4">
                         <div>
                             <label class="block text-xs font-semibold text-slate-600 mb-1">Pilih Kantor / Unit Asal Surat</label>
-                            <select id="pemohon-kantor" required class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm bg-white">
+                            <select id="pemohon-kantor" required onchange="handleBookingKantorChange(this)" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm bg-white">
                                 <option value="" disabled selected>-- Pilih Kantor Pengaju --</option>
                                 <option value="Kecamatan Cinere">Kecamatan Cinere (Prefix: KC)</option>
                                 <option value="Kelurahan Cinere">Kelurahan Cinere (Prefix: KLC)</option>
@@ -396,6 +405,16 @@
                                 <option value="Kelurahan Pangkalan Jati Baru">Kelurahan Pangkalan Jati Baru (Prefix: KLPB)</option>
                             </select>
                         </div>
+
+                        <!-- Reuse Cancelled Number Option Box -->
+                        <div id="container-reuse-slot" class="hidden space-y-1 bg-amber-50/60 p-3.5 rounded-xl border border-amber-200">
+                            <label class="block font-semibold text-amber-900 text-xs">Gunakan Kembali Nomor Batal / Kosong (Opsional):</label>
+                            <select id="pemohon-reuse-id" onchange="handleReuseSlotChange(this)" class="w-full px-3 py-2 rounded-xl border border-amber-300 bg-white text-xs font-mono font-bold text-amber-900">
+                                <option value="">-- Buat Nomor Tiket Baru Berjalan --</option>
+                            </select>
+                            <p class="text-[10px] text-amber-700 italic mt-0.5">Jika dipilih, nomor tiket dan slot penomoran kosong terdahulu akan digunakan kembali.</p>
+                        </div>
+
                         <div>
                             <label class="block text-xs font-semibold text-slate-600 mb-1">Seksi / Sub Bagian Pemohon</label>
                             <input type="text" id="pemohon-unit" required placeholder="Cth: Seksi Pemerintahan" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm">
@@ -455,7 +474,8 @@
                                     <th class="p-3 rounded-l-xl">No. Tiket</th>
                                     <th class="p-3">Perihal / Seksi</th>
                                     <th class="p-3">Status</th>
-                                    <th class="p-3 rounded-r-xl">Nomor Resmi</th>
+                                    <th class="p-3">Nomor Resmi</th>
+                                    <th class="p-3 rounded-r-xl text-center">Aksi Pemohon</th>
                                 </tr>
                             </thead>
                             <tbody id="user-history-tbody" class="divide-y divide-slate-100"></tbody>
@@ -711,7 +731,7 @@
                                 <th class="p-3">Kantor / Pemohon & Perihal</th>
                                 <th class="p-3">Tanggal / Tujuan</th>
                                 <th class="p-3">Status</th>
-                                <th class="p-3 rounded-r-xl text-center">Aksi Verifikasi</th>
+                                <th class="p-3 rounded-r-xl text-center">Aksi Verifikasi & Pembatalan</th>
                             </tr>
                         </thead>
                         <tbody id="table-admin-body" class="divide-y divide-slate-100"></tbody>
@@ -763,6 +783,48 @@
                 <div class="pt-2 flex space-x-3">
                     <button type="button" onclick="closeFinalizeModal()" class="flex-1 py-2.5 border border-slate-300 rounded-xl">Batal</button>
                     <button type="submit" class="flex-1 py-2.5 bg-emerald-600 text-white font-semibold rounded-xl">Terbitkan & Kirim Notifikasi Gmail</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Request Cancellation Modal (For Applicant) -->
+    <div id="modal-request-cancel" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl max-w-md w-full shadow-2xl overflow-hidden">
+            <div class="p-5 border-b border-slate-100 flex items-center justify-between bg-red-50 text-red-900">
+                <h3 class="font-bold text-base flex items-center space-x-2"><i class="fa-solid fa-triangle-exclamation mr-1"></i><span>Ajukan Pembatalan Nomor Tiket</span></h3>
+                <button type="button" onclick="closeRequestCancelModal()" class="text-slate-400 hover:text-slate-700"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form onsubmit="handleRequestCancelSubmit(event)" class="p-6 space-y-4 text-xs">
+                <input type="hidden" id="cancel-req-id">
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Alasan Pengajuan Pembatalan:</label>
+                    <textarea id="cancel-req-reason" required rows="3" placeholder="Tuliskan alasan pembatalan nomor surat..." class="w-full px-3 py-2.5 rounded-xl border border-slate-300"></textarea>
+                </div>
+                <div class="pt-2 flex space-x-3">
+                    <button type="button" onclick="closeRequestCancelModal()" class="flex-1 py-2.5 border border-slate-300 rounded-xl">Kembali</button>
+                    <button type="submit" class="flex-1 py-2.5 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-xl">Kirim Pengajuan Batal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Confirm Cancellation Modal -->
+    <div id="modal-admin-cancel-confirm" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl max-w-md w-full shadow-2xl overflow-hidden">
+            <div class="p-5 border-b border-slate-100 flex items-center justify-between bg-amber-50 text-amber-900">
+                <h3 class="font-bold text-base"><i class="fa-solid fa-shield-halved mr-1"></i> Konfirmasi Pembatalan Pemohon</h3>
+                <button type="button" onclick="closeAdminCancelConfirmModal()" class="text-slate-400 hover:text-slate-700"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form onsubmit="handleAdminConfirmCancelSubmit(event)" class="p-6 space-y-4 text-xs">
+                <input type="hidden" id="admin-confirm-cancel-id">
+                <div class="bg-slate-50 p-3.5 rounded-xl border space-y-1">
+                    <p class="text-slate-600">Alasan Pemohon: <strong id="lbl-cancel-reason" class="text-slate-900">-</strong></p>
+                </div>
+                <p class="text-slate-600 leading-relaxed">Menyetujui pembatalan ini akan mengubah status tiket menjadi <strong>Dibatalkan</strong> dan slot nomor tersebut akan otomatis menjadi kosong/tersedia untuk digunakan kembali.</p>
+                <div class="pt-2 flex space-x-3">
+                    <button type="button" onclick="closeAdminCancelConfirmModal()" class="flex-1 py-2.5 border border-slate-300 rounded-xl">Tutup</button>
+                    <button type="submit" class="flex-1 py-2.5 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-xl">Setujui & Batalkan Nomor</button>
                 </div>
             </form>
         </div>
@@ -973,7 +1035,7 @@
             session: null,
             role: 'dashboard',
             queueData: [
-                { id: 'KC-001', queueNumber: 1, kantor: 'Kecamatan Cinere', unit: 'Seksi Pemerintahan', email: 'pemohon@cinere.depok.go.id', jenis: 'Surat Dinas', ttType: 'TTE', perihal: 'Rapat Koordinasi', tujuan: 'Walikota', tanggal: '2026-03-30', status: 'Selesai', finalNumber: '100.2/001/Seksi Pemerintahan/III/2026' }
+                { id: 'KC-001', queueNumber: 1, kantor: 'Kecamatan Cinere', unit: 'Seksi Pemerintahan', email: 'pemohon@cinere.depok.go.id', jenis: 'Surat Dinas', ttType: 'TTE', perihal: 'Rapat Koordinasi', tujuan: 'Walikota', tanggal: '2026-03-30', status: 'Selesai', finalNumber: '100.2/001/Seksi Pemerintahan/III/2026', cancelReason: '' }
             ],
             registeredUsers: [
                 { id: 1, name: "Warga / Pemohon Default", email: "pemohon@cinere.depok.go.id", unit: "Kecamatan Cinere", password: "123", createdAt: "2026-03-01 08:00" }
@@ -1066,6 +1128,8 @@
             const passwordInput = document.getElementById('login-password');
             const roleTypeInput = document.getElementById('login-role-type');
             const unitInput = document.getElementById('login-admin-unit');
+            const errorBox = document.getElementById('auth-error-box');
+            const errorMsg = document.getElementById('auth-error-msg');
             
             const username = usernameInput ? usernameInput.value.trim() : '';
             const password = passwordInput ? passwordInput.value.trim() : '';
@@ -1077,20 +1141,27 @@
             let matchedUser = null;
 
             if (roleType === 'superadmin') {
-                matchedUser = appState.adminAccounts.find(a => (a.username === username || a.name.toLowerCase().includes(username.toLowerCase())) && a.role === 'superadmin');
+                matchedUser = appState.adminAccounts.find(a => (a.username === username || a.name.toLowerCase().includes(username.toLowerCase())) && a.role === 'superadmin' && String(a.password) === String(password));
             } else if (roleType === 'admin') {
-                matchedUser = appState.adminAccounts.find(a => a.unit === unit && (a.username === username || a.role === 'admin'));
+                matchedUser = appState.adminAccounts.find(a => a.unit === unit && (a.username === username || a.role === 'admin') && String(a.password) === String(password));
             } else {
-                matchedUser = appState.registeredUsers.find(u => u.email.toLowerCase() === username.toLowerCase() || u.name.toLowerCase().includes(username.toLowerCase()));
-                if (!matchedUser) {
-                    matchedUser = { name: username || 'Pemohon', email: username, unit: unit };
-                }
+                matchedUser = appState.registeredUsers.find(u => (u.email.toLowerCase() === username.toLowerCase() || u.name.toLowerCase().includes(username.toLowerCase())) && String(u.password) === String(password));
             }
 
-            let displayName = matchedUser ? matchedUser.name : username;
-            let assignedUnit = matchedUser && matchedUser.unit ? matchedUser.unit : unit;
+            if (!matchedUser) {
+                if(errorBox && errorMsg) {
+                    errorMsg.innerText = `Akses Ditolak: Kredensial ${roleType.toUpperCase()} tidak valid atau akun belum terdaftar di database. Silakan hubungi admin unit.`;
+                    errorBox.classList.remove('hidden');
+                }
+                return;
+            }
 
-            appState.session = { role: roleType, name: displayName, unit: assignedUnit, email: username };
+            if(errorBox) errorBox.classList.add('hidden');
+
+            let displayName = matchedUser.name;
+            let assignedUnit = matchedUser.unit || unit;
+
+            appState.session = { role: roleType, name: displayName, unit: assignedUnit, email: matchedUser.email || username };
             
             const overlay = document.getElementById('auth-overlay');
             if(overlay) overlay.classList.add('hidden');
@@ -1127,8 +1198,11 @@
                 switchRole('booking');
                 const pKantor = document.getElementById('pemohon-kantor');
                 const pEmail = document.getElementById('pemohon-email');
-                if(pKantor) pKantor.value = assignedUnit;
-                if(pEmail) pEmail.value = username.includes('@') ? username : 'pemohon@cinere.depok.go.id';
+                if(pKantor) {
+                    pKantor.value = assignedUnit;
+                    handleBookingKantorChange(pKantor);
+                }
+                if(pEmail) pEmail.value = matchedUser.email || username;
             } else {
                 switchRole('admin');
             }
@@ -1178,7 +1252,7 @@
 
             tEl.innerText = title;
             mEl.innerText = message;
-            box.className = "mb-6 p-4 rounded-xl border bg-emerald-50 border-emerald-200 text-emerald-900 flex items-center space-x-3";
+            box.className = "mb-6 p-4 rounded-xl border bg-emerald-50 border-emerald-200 text-emerald-900 flex items-center space-x-3 shadow-sm";
             box.classList.remove('hidden');
             setTimeout(() => box.classList.add('hidden'), 5000);
         }
@@ -1186,6 +1260,45 @@
         function hideNotification() {
             const box = document.getElementById('notification-box');
             if(box) box.classList.add('hidden');
+        }
+
+        function handleBookingKantorChange(selectEl) {
+            const kantor = selectEl.value;
+            const reuseContainer = document.getElementById('container-reuse-slot');
+            const reuseSelect = document.getElementById('pemohon-reuse-id');
+            const banner = document.getElementById('cancelled-slot-banner');
+
+            if(!reuseSelect) return;
+
+            const cancelledItems = appState.queueData.filter(i => i.kantor === kantor && i.status === 'Dibatalkan');
+            reuseSelect.innerHTML = '<option value="">-- Buat Nomor Tiket Baru Berjalan --</option>';
+
+            if(cancelledItems.length > 0) {
+                if(reuseContainer) reuseContainer.classList.remove('hidden');
+                if(banner) banner.classList.remove('hidden');
+                cancelledItems.forEach(item => {
+                    reuseSelect.innerHTML += `<option value="${item.id}">Tiket [${item.id}] - Perihal: ${item.perihal} (Batal tgl: ${item.tanggal})</option>`;
+                });
+            } else {
+                if(reuseContainer) reuseContainer.classList.add('hidden');
+                if(banner) banner.classList.add('hidden');
+            }
+        }
+
+        function handleReuseSlotChange(selectEl) {
+            const selectedId = selectEl.value;
+            const unitEl = document.getElementById('pemohon-unit');
+            const perihalEl = document.getElementById('pemohon-perihal');
+            const tujuanEl = document.getElementById('pemohon-tujuan');
+
+            if(selectedId) {
+                const item = appState.queueData.find(i => i.id === selectedId);
+                if(item) {
+                    if(unitEl) unitEl.value = item.unit;
+                    if(perihalEl) perihalEl.value = `(Reuse Slot Batal) ${item.perihal}`;
+                    if(tujuanEl) tujuanEl.value = item.tujuan;
+                }
+            }
         }
 
         async function handleBookingSubmit(e) {
@@ -1198,19 +1311,31 @@
             const perihalEl = document.getElementById('pemohon-perihal');
             const tujuanEl = document.getElementById('pemohon-tujuan');
             const tanggalEl = document.getElementById('pemohon-tanggal');
+            const reuseSelect = document.getElementById('pemohon-reuse-id');
 
             if(!kantorEl) return;
 
             const kantor = kantorEl.value;
             const prefix = kantor === 'Kecamatan Cinere' ? 'KC' : (kantor === 'Kelurahan Cinere' ? 'KLC' : (kantor === 'Kelurahan Gandul' ? 'KLG' : (kantor === 'Kelurahan Pangkalan Jati' ? 'KLP' : 'KLPB')));
-            const count = appState.queueData.filter(i => i.id && i.id.startsWith(prefix)).length + 1;
-            const ticketId = prefix + '-' + String(count).padStart(3, '0');
+            
+            let ticketId = '';
+            let queueNum = 1;
+
+            if(reuseSelect && reuseSelect.value) {
+                ticketId = reuseSelect.value;
+                const existingItem = appState.queueData.find(i => i.id === ticketId);
+                if(existingItem) queueNum = existingItem.queueNumber || 1;
+            } else {
+                const count = appState.queueData.filter(i => i.id && i.id.startsWith(prefix) && i.status !== 'Dibatalkan').length + 1;
+                queueNum = count;
+                ticketId = prefix + '-' + String(count).padStart(3, '0');
+            }
 
             const emailVal = emailEl ? emailEl.value : 'pemohon@cinere.depok.go.id';
 
             const newItem = {
                 id: ticketId,
-                queueNumber: count,
+                queueNumber: queueNum,
                 kantor: kantor,
                 unit: unitEl ? unitEl.value : '',
                 email: emailVal,
@@ -1221,10 +1346,17 @@
                 tanggal: tanggalEl ? tanggalEl.value : '',
                 timestamp: new Date().toLocaleString('id-ID'),
                 status: 'Menunggu',
-                finalNumber: ''
+                finalNumber: '',
+                cancelReason: ''
             };
 
-            appState.queueData.unshift(newItem);
+            const existingIdx = appState.queueData.findIndex(i => i.id === ticketId);
+            if(existingIdx !== -1) {
+                appState.queueData[existingIdx] = newItem;
+            } else {
+                appState.queueData.unshift(newItem);
+            }
+
             appState.adminCurrentPage = 1;
             updateUI();
             
@@ -1234,6 +1366,10 @@
             triggerEmailSimulation(emailVal, 'Konfirmasi Pengajuan Booking Nomor Surat', `Halo, pengajuan booking nomor surat Anda dengan nomor tiket ${ticketId} untuk keperluan "${newItem.perihal}" telah diterima dan berstatus MENUNGGU validasi.`);
             
             document.getElementById('form-booking').reset();
+            const reuseCont = document.getElementById('container-reuse-slot');
+            const banner = document.getElementById('cancelled-slot-banner');
+            if(reuseCont) reuseCont.classList.add('hidden');
+            if(banner) banner.classList.add('hidden');
         }
 
         function triggerEmailSimulation(toEmail, subject, bodyText) {
@@ -1490,10 +1626,91 @@
             if(modal) modal.classList.add('hidden');
         }
 
+        // Applicant Cancel Request Functions
+        function openRequestCancelModal(ticketId) {
+            const modal = document.getElementById('modal-request-cancel');
+            const idInput = document.getElementById('cancel-req-id');
+            const reasonInput = document.getElementById('cancel-req-reason');
+            if(modal && idInput) {
+                idInput.value = ticketId;
+                if(reasonInput) reasonInput.value = '';
+                modal.classList.remove('hidden');
+            }
+        }
+
+        function closeRequestCancelModal() {
+            const modal = document.getElementById('modal-request-cancel');
+            if(modal) modal.classList.add('hidden');
+        }
+
+        async function handleRequestCancelSubmit(e) {
+            e.preventDefault();
+            const id = document.getElementById('cancel-req-id').value;
+            const reason = document.getElementById('cancel-req-reason').value;
+
+            const item = appState.queueData.find(i => i.id === id);
+            if(item) {
+                item.status = 'Menunggu Konfirmasi Batal';
+                item.cancelReason = reason;
+                await apiService.sendRequest('updateBookingStatus', { data: item });
+            }
+            closeRequestCancelModal();
+            updateUI();
+            showNotification('Pengajuan Terkirim', 'Pengajuan pembatalan tiket telah dikirim ke Admin untuk dikonfirmasi.');
+        }
+
+        // Admin Cancel Confirmation Modal Functions
+        function openAdminCancelConfirmModal(ticketId) {
+            const modal = document.getElementById('modal-admin-cancel-confirm');
+            const idInput = document.getElementById('admin-confirm-cancel-id');
+            const lblReason = document.getElementById('lbl-cancel-reason');
+
+            const item = appState.queueData.find(i => i.id === ticketId);
+            if(modal && idInput && item) {
+                idInput.value = ticketId;
+                if(lblReason) lblReason.innerText = item.cancelReason || 'Tanpa alasan';
+                modal.classList.remove('hidden');
+            }
+        }
+
+        function closeAdminCancelConfirmModal() {
+            const modal = document.getElementById('modal-admin-cancel-confirm');
+            if(modal) modal.classList.add('hidden');
+        }
+
+        async function handleAdminConfirmCancelSubmit(e) {
+            e.preventDefault();
+            const id = document.getElementById('admin-confirm-cancel-id').value;
+
+            const item = appState.queueData.find(i => i.id === id);
+            if(item) {
+                item.status = 'Dibatalkan';
+                item.finalNumber = '';
+                await apiService.sendRequest('updateBookingStatus', { data: item });
+            }
+            closeAdminCancelConfirmModal();
+            updateUI();
+            showNotification('Dibatalkan', `Tiket ${id} berhasil dikonfirmasi batal dan slot nomor kini kosong/tersedia.`);
+        }
+
+        async function adminDirectCancel(ticketId) {
+            if(confirm(`Apakah Anda yakin ingin langsung membatalkan tiket ${ticketId}? Slot nomor akan menjadi kosong dan dapat digunakan kembali.`)) {
+                const item = appState.queueData.find(i => i.id === ticketId);
+                if(item) {
+                    item.status = 'Dibatalkan';
+                    item.finalNumber = '';
+                    item.cancelReason = 'Dibatalkan Langsung oleh Admin';
+                    await apiService.sendRequest('updateBookingStatus', { data: item });
+                    updateUI();
+                    showNotification('Dibatalkan', `Tiket ${ticketId} berhasil dibatalkan.`);
+                }
+            }
+        }
+
         function updateUI() {
-            let filteredQueue = appState.queueData;
+            let filteredQueue = appState.queueData.filter(i => i.status !== 'Dibatalkan');
             if(appState.dashboardUnitFilter !== 'ALL') {
-                filteredQueue = appState.queueData.filter(i => i.kantor === appState.dashboardUnitFilter);
+                filteredQueue = filteredQueue.filter(i => i.kantor === appState.dashboardUnitFilter);
             }
 
             const totalStat = document.getElementById('stat-total');
@@ -1515,14 +1732,14 @@
             ];
 
             unitList.forEach(u => {
-                const count = appState.queueData.filter(i => i.id && i.id.startsWith(u.prefix)).length;
+                const count = appState.queueData.filter(i => i.id && i.id.startsWith(u.prefix) && i.status !== 'Dibatalkan').length;
                 const el = document.getElementById(u.el);
                 if(el) el.innerText = String(count + 1).padStart(3, '0');
             });
 
-            let tableQueue = appState.queueData;
+            let tableQueue = appState.queueData.filter(i => i.status !== 'Dibatalkan');
             if(appState.tableUnitFilter !== 'ALL') {
-                tableQueue = appState.queueData.filter(i => i.kantor === appState.tableUnitFilter);
+                tableQueue = tableQueue.filter(i => i.kantor === appState.tableUnitFilter);
             }
 
             const recentTbody = document.getElementById('dashboard-recent-tbody');
@@ -1549,16 +1766,29 @@
                 const userSubmissions = appState.queueData.filter(i => (i.email && i.email.toLowerCase() === userEmail) || (i.kantor === appState.session.unit));
                 
                 if(userSubmissions.length === 0) {
-                    userHistoryTbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400 italic">Belum ada riwayat pengajuan atau pencarian dari akun Anda.</td></tr>`;
+                    userHistoryTbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400 italic">Belum ada riwayat pengajuan atau pencarian dari akun Anda.</td></tr>`;
                 } else {
                     userSubmissions.forEach(item => {
-                        const badge = item.status === 'Selesai' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800';
+                        let badge = item.status === 'Selesai' ? 'bg-emerald-100 text-emerald-800' : (item.status === 'Dibatalkan' ? 'bg-red-100 text-red-800' : (item.status === 'Menunggu Konfirmasi Batal' ? 'bg-purple-100 text-purple-800' : 'bg-amber-100 text-amber-800'));
+                        
+                        let userActionBtn = '-';
+                        if(item.status === 'Menunggu') {
+                            userActionBtn = `<button type="button" onclick="openRequestCancelModal('${item.id}')" class="px-2.5 py-1 bg-red-600 hover:bg-red-700 text-white rounded font-semibold text-[11px]">Ajukan Batal</button>`;
+                        } else if(item.status === 'Menunggu Konfirmasi Batal') {
+                            userActionBtn = `<span class="text-purple-700 font-semibold italic text-[10px]">Menunggu Konfirmasi Admin</span>`;
+                        } else if(item.status === 'Dibatalkan') {
+                            userActionBtn = `<span class="text-red-600 font-bold text-[10px]">Telah Dibatalkan</span>`;
+                        } else if(item.status === 'Selesai') {
+                            userActionBtn = `<span class="text-emerald-700 font-semibold text-[10px]">Selesai Terbit</span>`;
+                        }
+
                         userHistoryTbody.innerHTML += `
                             <tr class="border-b">
                                 <td class="p-3 font-mono font-bold text-indigo-700">${item.id}</td>
                                 <td class="p-3">${item.perihal} (${item.unit})</td>
                                 <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${badge}">${item.status}</span></td>
-                                <td class="p-3 font-mono font-bold">${item.finalNumber || '-'}</td>
+                                <td class="p-3 font-mono font-bold text-slate-800">${item.finalNumber || '-'}</td>
+                                <td class="p-3 text-center">${userActionBtn}</td>
                             </tr>
                         `;
                     });
@@ -1602,15 +1832,37 @@
                     adminTbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-slate-400 italic">Tidak ada data antrean surat yang ditemukan.</td></tr>`;
                 } else {
                     paginatedQueue.forEach(item => {
-                        const actionBtn = item.status === 'Menunggu' 
-                            ? `<button type="button" onclick="openFinalizeModal('${item.id}')" class="px-3 py-1 bg-indigo-600 text-white rounded font-semibold hover:bg-indigo-700">Verifikasi</button>`
-                            : `<button type="button" onclick="openViewVerificationModal('${item.id}')" class="px-3 py-1 bg-emerald-600 text-white rounded font-semibold hover:bg-emerald-700 flex items-center space-x-1 mx-auto"><i class="fa-solid fa-eye text-[10px] mr-1"></i> View Hasil Verifikasi</button>`;
+                        let actionBtn = '';
+                        if(item.status === 'Menunggu') {
+                            actionBtn = `
+                                <div class="flex items-center justify-center space-x-1.5">
+                                    <button type="button" onclick="openFinalizeModal('${item.id}')" class="px-3 py-1 bg-indigo-600 text-white rounded font-semibold hover:bg-indigo-700">Verifikasi</button>
+                                    <button type="button" onclick="adminDirectCancel('${item.id}')" class="px-2.5 py-1 bg-red-600 text-white rounded font-semibold hover:bg-red-700" title="Batalkan Langsung"><i class="fa-solid fa-ban"></i></button>
+                                </div>
+                            `;
+                        } else if(item.status === 'Menunggu Konfirmasi Batal') {
+                            actionBtn = `
+                                <button type="button" onclick="openAdminCancelConfirmModal('${item.id}')" class="px-3 py-1 bg-amber-600 text-white rounded font-semibold hover:bg-amber-700 animate-pulse">Konfirmasi Batal</button>
+                            `;
+                        } else if(item.status === 'Dibatalkan') {
+                            actionBtn = `<span class="bg-red-100 text-red-800 px-2 py-0.5 rounded text-[10px] font-bold">Dibatalkan / Slot Kosong</span>`;
+                        } else {
+                            actionBtn = `
+                                <div class="flex items-center justify-center space-x-1.5">
+                                    <button type="button" onclick="openViewVerificationModal('${item.id}')" class="px-3 py-1 bg-emerald-600 text-white rounded font-semibold hover:bg-emerald-700 flex items-center space-x-1"><i class="fa-solid fa-eye text-[10px] mr-1"></i> View</button>
+                                    <button type="button" onclick="adminDirectCancel('${item.id}')" class="px-2.5 py-1 bg-red-600 text-white rounded font-semibold hover:bg-red-700" title="Batalkan Nomor"><i class="fa-solid fa-ban"></i></button>
+                                </div>
+                            `;
+                        }
+
+                        let badgeClass = item.status === 'Selesai' ? 'bg-emerald-100 text-emerald-800' : (item.status === 'Dibatalkan' ? 'bg-red-100 text-red-800' : (item.status === 'Menunggu Konfirmasi Batal' ? 'bg-purple-100 text-purple-800' : 'bg-amber-100 text-amber-800'));
+
                         adminTbody.innerHTML += `
                             <tr class="border-b hover:bg-slate-50">
                                 <td class="p-3 font-mono font-bold text-indigo-700">${item.id}</td>
-                                <td class="p-3">${item.kantor} - <b>${item.unit}</b><br><span class="text-indigo-600">${item.perihal}</span><br><span class="text-[10px] text-slate-400">Gmail: ${item.email || '-'}</span></td>
+                                <td class="p-3">${item.kantor} - <b>${item.unit}</b><br><span class="text-indigo-600">${item.perihal}</span>${item.cancelReason ? '<br><span class="text-red-600 italic text-[10px]">Alasan Batal: ' + item.cancelReason + '</span>' : ''}</td>
                                 <td class="p-3">${item.tanggal}<br>${item.tujuan}</td>
-                                <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${item.status === 'Selesai' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">${item.status}</span></td>
+                                <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${badgeClass}">${item.status}</span></td>
                                 <td class="p-3 text-center">${actionBtn}</td>
                             </tr>
                         `;
