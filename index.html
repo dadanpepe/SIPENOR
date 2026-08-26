@@ -55,7 +55,7 @@
                     <span class="inline-block bg-amber-400 text-slate-950 font-bold px-3 py-1 rounded-full text-xs uppercase tracking-wider shadow-sm">SIPENOR V3.9 GOOGLE SHEETS SYNC</span>
                     <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-tight">SIPENOR KECAMATAN CINERE</h2>
                     <p class="text-slate-300 text-xs md:text-sm leading-relaxed max-w-md">
-                        Sistem Penomoran & Booking Surat Keluar terintegrasi Google Spreadsheet Berdasarkan Perwal Depok No. 17 Tahun 2025 dengan Validasi Akun & Slot Batal.
+                        Sistem Penomoran & Booking Surat Keluar terintegrasi Google Spreadsheet Berdasarkan Perwal Depok No. 17 Tahun 2025.
                     </p>
                 </div>
 
@@ -76,7 +76,7 @@
 
                     <div id="auth-error-box" class="hidden p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-center space-x-2">
                         <i class="fa-solid fa-circle-exclamation text-sm shrink-0"></i>
-                        <span id="auth-error-msg">Akun tidak ditemukan. Silakan hubungi admin unit.</span>
+                        <span id="auth-error-msg">Terjadi kesalahan otentikasi.</span>
                     </div>
 
                     <form onsubmit="handleLoginSubmit(event)" class="space-y-4 text-xs">
@@ -99,7 +99,7 @@
                                 <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
                                     <i class="fa-solid fa-envelope"></i>
                                 </span>
-                                <input type="text" id="login-username" required placeholder="pemohon@cinere.depok.go.id atau username" class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none bg-slate-50">
+                                <input type="text" id="login-username" required placeholder="pemohon@cinere.depok.go.id" class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none bg-slate-50">
                             </div>
                         </div>
 
@@ -148,15 +148,14 @@
 
                         <div class="pt-2">
                             <button type="submit" id="auth-submit-btn" class="w-full py-3.5 bg-indigo-900 hover:bg-indigo-950 text-white font-semibold rounded-xl text-xs transition-all shadow-md flex items-center justify-center space-x-2">
-                                <span id="auth-submit-text">Login & Validasi Akun DB</span>
+                                <span id="auth-submit-text">Login & Sinkronisasi DB</span>
                                 <i class="fa-solid fa-arrow-right"></i>
                             </button>
                         </div>
 
-                        <!-- Note for users without an account -->
                         <div id="auth-note-box" class="pt-2 text-center">
                             <p class="text-[11px] text-slate-500 leading-relaxed bg-slate-50 p-2.5 rounded-xl border border-slate-200">
-                                <i class="fa-solid fa-circle-info text-indigo-600 mr-1"></i> Belum memiliki akun terdaftar? Hubungi <strong>Admin Kantor Kecamatan / Kelurahan</strong> terkait untuk dibuatkan akun akses.
+                                <i class="fa-solid fa-circle-info text-indigo-600 mr-1"></i> Belum memiliki akun? Silakan menghubungi <strong>Admin Kecamatan / Kelurahan</strong> terkait untuk dibuatkan akses akun.
                             </p>
                         </div>
                     </form>
@@ -192,7 +191,6 @@
                     </button>
                 </div>
 
-                <!-- Logout Button -->
                 <div class="flex items-center space-x-2 pl-2 border-l border-indigo-600">
                     <div id="container-logout-btn" class="hidden">
                         <button type="button" onclick="logoutSession()" title="Keluar / Ganti Akun" class="px-3 py-1.5 bg-indigo-800 hover:bg-indigo-900 text-indigo-200 hover:text-white rounded-xl transition-all text-xs font-semibold flex items-center space-x-1.5 shadow-sm">
@@ -217,7 +215,7 @@
             <button type="button" onclick="hideNotification()" class="text-xs opacity-60 hover:opacity-100"><i class="fa-solid fa-xmark text-base"></i></button>
         </div>
 
-        <!-- DASHBOARD VIEW -->
+        <!-- 1. DASHBOARD VIEW -->
         <div id="view-dashboard" class="space-y-6">
             <div class="bg-gradient-to-r from-indigo-900 via-slate-900 to-indigo-950 rounded-3xl p-6 md:p-10 text-white shadow-xl relative overflow-hidden space-y-6">
                 <div class="absolute right-0 bottom-0 translate-x-12 translate-y-12 text-white/5 text-[14rem] pointer-events-none">
@@ -261,7 +259,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Centered Slider Controls -->
                     <div class="flex justify-center space-x-2">
                         <button type="button" onclick="slideUnitBanner(-1)" class="w-9 h-9 rounded-full bg-white/25 hover:bg-white/40 text-white flex items-center justify-center transition-all shadow-md"><i class="fa-solid fa-chevron-left text-xs"></i></button>
                         <button type="button" onclick="slideUnitBanner(1)" class="w-9 h-9 rounded-full bg-white/25 hover:bg-white/40 text-white flex items-center justify-center transition-all shadow-md"><i class="fa-solid fa-chevron-right text-xs"></i></button>
@@ -269,7 +266,7 @@
                 </div>
             </div>
 
-            <!-- Stats Cards & Unit Filter -->
+            <!-- Stats & Filter -->
             <div class="space-y-4">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
                     <h3 class="font-bold text-slate-900 text-sm flex items-center space-x-2">
@@ -332,7 +329,7 @@
                 </div>
             </div>
 
-            <!-- Recent Completed Table with Unit Filter -->
+            <!-- Recent Completed Table -->
             <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <h3 class="font-bold text-slate-900 text-base flex items-center space-x-2">
@@ -369,25 +366,26 @@
             </div>
         </div>
 
-        <!-- BOOKING VIEW -->
+        <!-- 2. BOOKING VIEW -->
         <div id="view-booking" class="space-y-6 hidden">
-            <div class="bg-gradient-to-r from-indigo-900 via-slate-900 to-indigo-950 rounded-3xl p-6 md:p-8 text-white shadow-xl relative overflow-hidden">
-                <div class="max-w-2xl relative z-10 space-y-2">
-                    <span class="bg-indigo-500 text-white font-bold px-3.5 py-1 rounded-full text-xs uppercase tracking-wider">Layanan Mandiri Unit Kerja Cinere</span>
-                    <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">Formulir Pengajuan & Pelacakan Nomor Surat</h2>
+            <!-- Dynamic Slot Reuse Info Box -->
+            <div id="container-voided-slots" class="bg-gradient-to-r from-amber-50 to-orange-50 p-6 rounded-3xl border border-amber-200 shadow-sm space-y-3">
+                <div class="flex items-center space-x-3">
+                    <div class="bg-amber-500 text-white p-3 rounded-2xl shadow">
+                        <i class="fa-solid fa-triangle-exclamation text-lg"></i>
+                    </div>
+                    <div>
+                        <span class="bg-amber-100 text-amber-800 font-bold px-2.5 py-0.5 rounded-full text-[10px] uppercase tracking-wider">Optimalisasi Nomor Kosong / Batal</span>
+                        <h3 class="font-bold text-slate-900 text-base mt-0.5">Daftar Nomor Booking Batal / Kosong untuk Unit Anda</h3>
+                    </div>
+                </div>
+                <p class="text-xs text-slate-600">Nomor-nomor berikut tidak jadi digunakan dan dapat diajukan kembali sebagai alternatif pemanfaatan nomor sesuai tanggal, bulan, dan tahun pembatalannya.</p>
+                <div id="voided-slots-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 pt-2">
+                    <!-- Dynamic voided slots rendered here -->
                 </div>
             </div>
 
             <div class="max-w-3xl mx-auto space-y-6">
-                <!-- Cancelled Slot Reuse Banner / Notice -->
-                <div id="cancelled-slot-banner" class="hidden bg-amber-50 border border-amber-200 p-4 rounded-2xl flex items-start space-x-3 shadow-sm">
-                    <div class="bg-amber-500 text-white p-2 rounded-xl text-sm mt-0.5"><i class="fa-solid fa-triangle-exclamation"></i></div>
-                    <div class="flex-grow space-y-1">
-                        <h4 class="font-bold text-amber-900 text-sm">Tersedia Nomor Batal / Kosong untuk Unit Ini</h4>
-                        <p class="text-xs text-amber-800">Terdapat slot nomor surat yang sebelumnya dibatalkan. Anda dapat memilih untuk menggunakan kembali nomor kosong tersebut pada opsi formulir di bawah.</p>
-                    </div>
-                </div>
-
                 <div class="bg-white p-6 md:p-8 rounded-2xl border border-slate-200 shadow-sm">
                     <h3 class="font-bold text-slate-900 text-base mb-4 flex items-center space-x-2">
                         <i class="fa-solid fa-circle-plus text-indigo-600"></i>
@@ -396,7 +394,7 @@
                     <form id="form-booking" onsubmit="handleBookingSubmit(event)" class="space-y-4">
                         <div>
                             <label class="block text-xs font-semibold text-slate-600 mb-1">Pilih Kantor / Unit Asal Surat</label>
-                            <select id="pemohon-kantor" required onchange="handleBookingKantorChange(this)" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm bg-white">
+                            <select id="pemohon-kantor" required class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm bg-white">
                                 <option value="" disabled selected>-- Pilih Kantor Pengaju --</option>
                                 <option value="Kecamatan Cinere">Kecamatan Cinere (Prefix: KC)</option>
                                 <option value="Kelurahan Cinere">Kelurahan Cinere (Prefix: KLC)</option>
@@ -405,16 +403,6 @@
                                 <option value="Kelurahan Pangkalan Jati Baru">Kelurahan Pangkalan Jati Baru (Prefix: KLPB)</option>
                             </select>
                         </div>
-
-                        <!-- Reuse Cancelled Number Option Box -->
-                        <div id="container-reuse-slot" class="hidden space-y-1 bg-amber-50/60 p-3.5 rounded-xl border border-amber-200">
-                            <label class="block font-semibold text-amber-900 text-xs">Gunakan Kembali Nomor Batal / Kosong (Opsional):</label>
-                            <select id="pemohon-reuse-id" onchange="handleReuseSlotChange(this)" class="w-full px-3 py-2 rounded-xl border border-amber-300 bg-white text-xs font-mono font-bold text-amber-900">
-                                <option value="">-- Buat Nomor Tiket Baru Berjalan --</option>
-                            </select>
-                            <p class="text-[10px] text-amber-700 italic mt-0.5">Jika dipilih, nomor tiket dan slot penomoran kosong terdahulu akan digunakan kembali.</p>
-                        </div>
-
                         <div>
                             <label class="block text-xs font-semibold text-slate-600 mb-1">Seksi / Sub Bagian Pemohon</label>
                             <input type="text" id="pemohon-unit" required placeholder="Cth: Seksi Pemerintahan" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm">
@@ -457,6 +445,13 @@
                             <label class="block text-xs font-semibold text-slate-600 mb-1">Tanggal Surat</label>
                             <input type="date" id="pemohon-tanggal" required readonly class="w-full px-3 py-2.5 rounded-xl border border-slate-200 bg-slate-100 text-slate-500 text-sm">
                         </div>
+
+                        <!-- Active Voided Reuse Note Container -->
+                        <div id="reuse-slot-note" class="hidden p-3 rounded-xl bg-amber-50 border border-amber-300 text-amber-900 text-xs flex items-center space-x-2">
+                            <i class="fa-solid fa-circle-info text-sm shrink-0"></i>
+                            <span id="reuse-slot-note-text">Anda sedang menggunakan nomor kosong dengan nomor 001</span>
+                        </div>
+
                         <button type="submit" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl text-sm transition-all shadow-md flex items-center justify-center space-x-2">
                             <i class="fa-solid fa-ticket"></i>
                             <span>Booking Nomor Sekarang</span>
@@ -475,7 +470,7 @@
                                     <th class="p-3">Perihal / Seksi</th>
                                     <th class="p-3">Status</th>
                                     <th class="p-3">Nomor Resmi</th>
-                                    <th class="p-3 rounded-r-xl text-center">Aksi Pemohon</th>
+                                    <th class="p-3 rounded-r-xl text-center">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody id="user-history-tbody" class="divide-y divide-slate-100"></tbody>
@@ -485,11 +480,10 @@
             </div>
         </div>
 
-        <!-- ADMIN VIEW -->
+        <!-- 3. ADMIN VIEW -->
         <div id="view-admin" class="space-y-8 hidden">
             <!-- Superadmin Management & Regulation Upload Section -->
             <div id="superadmin-management-section" class="space-y-6 hidden">
-                <!-- Regulation PDF File Upload Panel -->
                 <div class="bg-white p-6 rounded-2xl border border-purple-200 shadow-sm space-y-4">
                     <div class="flex items-center space-x-3">
                         <div class="bg-purple-100 text-purple-700 p-3 rounded-xl"><i class="fa-solid fa-file-pdf text-xl"></i></div>
@@ -501,17 +495,34 @@
                     <form onsubmit="handleRegulationFileUpload(event)" class="space-y-3 text-xs">
                         <div>
                             <label class="block font-semibold text-slate-700 mb-1">Pilih File PDF Regulasi Resmi:</label>
-                            <input type="file" id="reg-pdf-file" accept=".pdf" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-purple-500 font-medium text-slate-700 bg-slate-50">
+                            <input type="file" id="reg-pdf-file" accept=".pdf" required onchange="handleFileSelected(this)" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-purple-500 font-medium text-slate-700 bg-slate-50">
                         </div>
+
+                        <!-- Uploaded PDF Preview Box Below Input -->
+                        <div id="uploaded-pdf-preview-box" class="hidden p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-2 text-slate-800 font-bold">
+                                    <i class="fa-solid fa-file-pdf text-red-600 text-base"></i>
+                                    <span id="uploaded-file-name" class="text-xs truncate max-w-xs">NamaFile.pdf</span>
+                                </div>
+                                <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full">Tersimpan & Siap</span>
+                            </div>
+                            <div class="flex items-center space-x-2 pt-1">
+                                <button type="button" onclick="openPdfModal()" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg text-xs shadow-sm flex items-center space-x-1.5">
+                                    <i class="fa-solid fa-eye text-xs"></i>
+                                    <span>Preview PDF Terunggah</span>
+                                </button>
+                            </div>
+                        </div>
+
                         <div class="flex justify-end">
                             <button type="submit" class="px-5 py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl shadow-md transition-all">
-                                <i class="fa-solid fa-cloud-arrow-up mr-1"></i> Upload & Tampilkan untuk Semua Akun
+                                <i class="fa-solid fa-cloud-arrow-up mr-1"></i> Simpan & Tampilkan untuk Semua Akun
                             </button>
                         </div>
                     </form>
                 </div>
 
-                <!-- Admin & User Accounts Management Panel -->
                 <div class="bg-white p-6 rounded-2xl border border-indigo-200 shadow-sm space-y-6">
                     <div class="flex items-center space-x-3">
                         <div class="bg-indigo-100 text-indigo-700 p-3 rounded-xl"><i class="fa-solid fa-users-gear text-xl"></i></div>
@@ -522,7 +533,6 @@
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2 border-t border-slate-100">
-                        <!-- Create Admin Account Form -->
                         <div class="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
                             <h4 class="font-bold text-slate-800 text-xs uppercase tracking-wider"><i class="fa-solid fa-user-shield text-indigo-600 mr-1"></i> Tambah / Perbarui Akun Admin Unit</h4>
                             <form onsubmit="handleAdminAccountSubmit(event)" class="space-y-2 text-xs">
@@ -552,7 +562,6 @@
                             </form>
                         </div>
 
-                        <!-- Create User Account Form -->
                         <div class="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
                             <h4 class="font-bold text-slate-800 text-xs uppercase tracking-wider"><i class="fa-solid fa-user-plus text-indigo-600 mr-1"></i> Buat Akun Pengguna / Pemohon</h4>
                             <form onsubmit="handleUserAccountSubmit(event)" class="space-y-2 text-xs">
@@ -583,20 +592,19 @@
                         </div>
                     </div>
 
-                    <!-- Admin & User Lists with Search & Pagination -->
+                    <!-- Admin Accounts Table -->
                     <div class="space-y-6 pt-4 border-t border-slate-200">
-                        <!-- Admin Accounts Table -->
                         <div class="space-y-3">
                             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                                 <h4 class="font-bold text-slate-900 text-sm flex items-center space-x-2">
                                     <i class="fa-solid fa-shield-halved text-indigo-600"></i>
-                                    <span>Daftar Akun Admin Unit (Riwayat & Manajemen)</span>
+                                    <span>Daftar Akun Admin Unit</span>
                                 </h4>
                                 <div class="relative">
                                     <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
                                         <i class="fa-solid fa-search text-xs"></i>
                                     </span>
-                                    <input type="text" id="admin-acc-search" oninput="handleAdminAccSearch(this)" placeholder="Cari admin / username..." class="pl-8 pr-3 py-1.5 rounded-xl border border-slate-300 text-xs w-48 sm:w-56 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-slate-50">
+                                    <input type="text" id="admin-acc-search" oninput="handleAdminAccSearch(this)" placeholder="Cari admin..." class="pl-8 pr-3 py-1.5 rounded-xl border border-slate-300 text-xs w-48 sm:w-56 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-slate-50">
                                 </div>
                             </div>
                             <div class="overflow-x-auto">
@@ -612,19 +620,6 @@
                                     <tbody id="admin-accounts-tbody" class="divide-y divide-slate-100"></tbody>
                                 </table>
                             </div>
-                            <!-- Admin Accounts Pagination -->
-                            <div class="flex items-center justify-between pt-2 text-xs text-slate-600">
-                                <div id="admin-acc-pagination-info">Menampilkan 0 data</div>
-                                <div class="flex items-center space-x-1">
-                                    <button type="button" onclick="changeAdminAccPage(-1)" id="btn-prev-admin-acc" class="px-2.5 py-1 rounded-lg border bg-white hover:bg-slate-50 font-semibold disabled:opacity-40 disabled:cursor-not-allowed">
-                                        <i class="fa-solid fa-chevron-left mr-1"></i> Prev
-                                    </button>
-                                    <span id="admin-acc-page-indicator" class="px-2 font-semibold">1 / 1</span>
-                                    <button type="button" onclick="changeAdminAccPage(1)" id="btn-next-admin-acc" class="px-2.5 py-1 rounded-lg border bg-white hover:bg-slate-50 font-semibold disabled:opacity-40 disabled:cursor-not-allowed">
-                                        Next <i class="fa-solid fa-chevron-right ml-1"></i>
-                                    </button>
-                                </div>
-                            </div>
                         </div>
 
                         <!-- User Accounts Table -->
@@ -632,13 +627,13 @@
                             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                                 <h4 class="font-bold text-slate-900 text-sm flex items-center space-x-2">
                                     <i class="fa-solid fa-users text-emerald-600"></i>
-                                    <span>Daftar Akun Pengguna / Pemohon (Riwayat & Manajemen)</span>
+                                    <span>Daftar Akun Pengguna / Pemohon</span>
                                 </h4>
                                 <div class="relative">
                                     <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
                                         <i class="fa-solid fa-search text-xs"></i>
                                     </span>
-                                    <input type="text" id="user-acc-search" oninput="handleUserAccSearch(this)" placeholder="Cari nama / email..." class="pl-8 pr-3 py-1.5 rounded-xl border border-slate-300 text-xs w-48 sm:w-56 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-slate-50">
+                                    <input type="text" id="user-acc-search" oninput="handleUserAccSearch(this)" placeholder="Cari pengguna..." class="pl-8 pr-3 py-1.5 rounded-xl border border-slate-300 text-xs w-48 sm:w-56 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-slate-50">
                                 </div>
                             </div>
                             <div class="overflow-x-auto">
@@ -654,26 +649,13 @@
                                     <tbody id="user-accounts-tbody" class="divide-y divide-slate-100"></tbody>
                                 </table>
                             </div>
-                            <!-- User Accounts Pagination -->
-                            <div class="flex items-center justify-between pt-2 text-xs text-slate-600">
-                                <div id="user-acc-pagination-info">Menampilkan 0 data</div>
-                                <div class="flex items-center space-x-1">
-                                    <button type="button" onclick="changeUserAccPage(-1)" id="btn-prev-user-acc" class="px-2.5 py-1 rounded-lg border bg-white hover:bg-slate-50 font-semibold disabled:opacity-40 disabled:cursor-not-allowed">
-                                        <i class="fa-solid fa-chevron-left mr-1"></i> Prev
-                                    </button>
-                                    <span id="user-acc-page-indicator" class="px-2 font-semibold">1 / 1</span>
-                                    <button type="button" onclick="changeUserAccPage(1)" id="btn-next-user-acc" class="px-2.5 py-1 rounded-lg border bg-white hover:bg-slate-50 font-semibold disabled:opacity-40 disabled:cursor-not-allowed">
-                                        Next <i class="fa-solid fa-chevron-right ml-1"></i>
-                                    </button>
-                                </div>
-                            </div>
                         </div>
                     </div>
 
                 </div>
             </div>
 
-            <!-- Regulation Banner for All Roles -->
+            <!-- Regulation Banner -->
             <div class="bg-gradient-to-r from-indigo-50 to-blue-50 p-6 rounded-2xl border border-indigo-200 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-6">
                 <div class="flex items-center space-x-4">
                     <div class="bg-red-500 text-white p-4 rounded-2xl shadow-md">
@@ -691,7 +673,7 @@
                 </button>
             </div>
 
-            <!-- Admin Queue Table with Filters and Pagination -->
+            <!-- Admin Queue Table -->
             <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
                 <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <h3 class="font-bold text-slate-900 text-base flex items-center space-x-2">
@@ -700,7 +682,6 @@
                     </h3>
                     
                     <div class="flex flex-wrap items-center gap-2">
-                        <!-- Unit Filter for Admin -->
                         <div id="admin-unit-filter-container" class="flex items-center space-x-2">
                             <span class="text-xs font-semibold text-slate-500"><i class="fa-solid fa-filter"></i> Unit:</span>
                             <select id="admin-table-unit-filter" onchange="handleAdminUnitFilterChange(this)" class="px-3 py-1.5 rounded-xl border border-slate-300 text-xs bg-slate-50 font-medium text-slate-700">
@@ -713,7 +694,6 @@
                             </select>
                         </div>
                         
-                        <!-- Search Bar -->
                         <div class="relative">
                             <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
                                 <i class="fa-solid fa-search text-xs"></i>
@@ -731,31 +711,17 @@
                                 <th class="p-3">Kantor / Pemohon & Perihal</th>
                                 <th class="p-3">Tanggal / Tujuan</th>
                                 <th class="p-3">Status</th>
-                                <th class="p-3 rounded-r-xl text-center">Aksi Verifikasi & Pembatalan</th>
+                                <th class="p-3 rounded-r-xl text-center">Aksi Verifikasi</th>
                             </tr>
                         </thead>
                         <tbody id="table-admin-body" class="divide-y divide-slate-100"></tbody>
                     </table>
                 </div>
-
-                <!-- Pagination Controls -->
-                <div class="flex items-center justify-between pt-4 border-t border-slate-100 text-xs text-slate-600">
-                    <div id="admin-pagination-info">Menampilkan 0 dari 0 data</div>
-                    <div class="flex items-center space-x-1">
-                        <button type="button" onclick="changeAdminPage(-1)" id="btn-prev-page" class="px-3 py-1.5 rounded-lg border bg-white hover:bg-slate-50 font-semibold disabled:opacity-40 disabled:cursor-not-allowed">
-                            <i class="fa-solid fa-chevron-left mr-1"></i> Sebelumnya
-                        </button>
-                        <span id="admin-page-indicator" class="px-3 font-semibold">Hal 1 dari 1</span>
-                        <button type="button" onclick="changeAdminPage(1)" id="btn-next-page" class="px-3 py-1.5 rounded-lg border bg-white hover:bg-slate-50 font-semibold disabled:opacity-40 disabled:cursor-not-allowed">
-                            Berikutnya <i class="fa-solid fa-chevron-right ml-1"></i>
-                        </button>
-                    </div>
-                </div>
             </div>
         </div>
     </main>
 
-    <!-- Finalize Modal with Manual Classification Code Input & P/B Prefix Option -->
+    <!-- 1. Finalize Modal -->
     <div id="modal-finalize" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
         <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl overflow-hidden">
             <div class="p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50">
@@ -788,49 +754,7 @@
         </div>
     </div>
 
-    <!-- Request Cancellation Modal (For Applicant) -->
-    <div id="modal-request-cancel" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-white rounded-2xl max-w-md w-full shadow-2xl overflow-hidden">
-            <div class="p-5 border-b border-slate-100 flex items-center justify-between bg-red-50 text-red-900">
-                <h3 class="font-bold text-base flex items-center space-x-2"><i class="fa-solid fa-triangle-exclamation mr-1"></i><span>Ajukan Pembatalan Nomor Tiket</span></h3>
-                <button type="button" onclick="closeRequestCancelModal()" class="text-slate-400 hover:text-slate-700"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <form onsubmit="handleRequestCancelSubmit(event)" class="p-6 space-y-4 text-xs">
-                <input type="hidden" id="cancel-req-id">
-                <div>
-                    <label class="block font-semibold text-slate-700 mb-1">Alasan Pengajuan Pembatalan:</label>
-                    <textarea id="cancel-req-reason" required rows="3" placeholder="Tuliskan alasan pembatalan nomor surat..." class="w-full px-3 py-2.5 rounded-xl border border-slate-300"></textarea>
-                </div>
-                <div class="pt-2 flex space-x-3">
-                    <button type="button" onclick="closeRequestCancelModal()" class="flex-1 py-2.5 border border-slate-300 rounded-xl">Kembali</button>
-                    <button type="submit" class="flex-1 py-2.5 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-xl">Kirim Pengajuan Batal</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Admin Confirm Cancellation Modal -->
-    <div id="modal-admin-cancel-confirm" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-white rounded-2xl max-w-md w-full shadow-2xl overflow-hidden">
-            <div class="p-5 border-b border-slate-100 flex items-center justify-between bg-amber-50 text-amber-900">
-                <h3 class="font-bold text-base"><i class="fa-solid fa-shield-halved mr-1"></i> Konfirmasi Pembatalan Pemohon</h3>
-                <button type="button" onclick="closeAdminCancelConfirmModal()" class="text-slate-400 hover:text-slate-700"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <form onsubmit="handleAdminConfirmCancelSubmit(event)" class="p-6 space-y-4 text-xs">
-                <input type="hidden" id="admin-confirm-cancel-id">
-                <div class="bg-slate-50 p-3.5 rounded-xl border space-y-1">
-                    <p class="text-slate-600">Alasan Pemohon: <strong id="lbl-cancel-reason" class="text-slate-900">-</strong></p>
-                </div>
-                <p class="text-slate-600 leading-relaxed">Menyetujui pembatalan ini akan mengubah status tiket menjadi <strong>Dibatalkan</strong> dan slot nomor tersebut akan otomatis menjadi kosong/tersedia untuk digunakan kembali.</p>
-                <div class="pt-2 flex space-x-3">
-                    <button type="button" onclick="closeAdminCancelConfirmModal()" class="flex-1 py-2.5 border border-slate-300 rounded-xl">Tutup</button>
-                    <button type="submit" class="flex-1 py-2.5 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-xl">Setujui & Batalkan Nomor</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- View Verification Result Modal -->
+    <!-- 2. View Verification Result Modal -->
     <div id="modal-view-verification" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
         <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-200">
             <div class="p-5 border-b border-slate-100 flex items-center justify-between bg-emerald-900 text-white">
@@ -860,85 +784,7 @@
         </div>
     </div>
 
-    <!-- Edit Admin Account Modal -->
-    <div id="modal-edit-admin" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-white rounded-2xl max-w-md w-full shadow-2xl overflow-hidden">
-            <div class="p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50">
-                <h3 class="font-bold text-slate-900 text-base">Edit Akun Admin Unit</h3>
-                <button type="button" onclick="closeEditAdminModal()" class="text-slate-400 hover:text-slate-700"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <form onsubmit="handleEditAdminSubmit(event)" class="p-6 space-y-3 text-xs">
-                <input type="hidden" id="edit-admin-id">
-                <div>
-                    <label class="block font-semibold text-slate-700 mb-1">Unit Kantor:</label>
-                    <select id="edit-admin-unit" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 bg-white">
-                        <option value="Kecamatan Cinere">Kecamatan Cinere</option>
-                        <option value="Kelurahan Cinere">Kelurahan Cinere</option>
-                        <option value="Kelurahan Gandul">Kelurahan Gandul</option>
-                        <option value="Kelurahan Pangkalan Jati">Kelurahan Pangkalan Jati</option>
-                        <option value="Kelurahan Pangkalan Jati Baru">Kelurahan Pangkalan Jati Baru</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block font-semibold text-slate-700 mb-1">Nama Petugas / Admin:</label>
-                    <input type="text" id="edit-admin-name" required class="w-full px-3 py-2.5 rounded-xl border border-slate-300">
-                </div>
-                <div>
-                    <label class="block font-semibold text-slate-700 mb-1">Username Admin:</label>
-                    <input type="text" id="edit-admin-username" required class="w-full px-3 py-2.5 rounded-xl border border-slate-300">
-                </div>
-                <div>
-                    <label class="block font-semibold text-slate-700 mb-1">Password Baru (Opsional):</label>
-                    <input type="password" id="edit-admin-password" placeholder="Kosongkan jika tidak diubah..." class="w-full px-3 py-2.5 rounded-xl border border-slate-300">
-                </div>
-                <div class="pt-2 flex space-x-3">
-                    <button type="button" onclick="closeEditAdminModal()" class="flex-1 py-2.5 border border-slate-300 rounded-xl">Batal</button>
-                    <button type="submit" class="flex-1 py-2.5 bg-indigo-600 text-white font-semibold rounded-xl">Simpan Perubahan</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Edit User Account Modal -->
-    <div id="modal-edit-user" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-white rounded-2xl max-w-md w-full shadow-2xl overflow-hidden">
-            <div class="p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50">
-                <h3 class="font-bold text-slate-900 text-base">Edit Akun Pengguna</h3>
-                <button type="button" onclick="closeEditUserModal()" class="text-slate-400 hover:text-slate-700"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <form onsubmit="handleEditUserSubmit(event)" class="p-6 space-y-3 text-xs">
-                <input type="hidden" id="edit-user-id">
-                <div>
-                    <label class="block font-semibold text-slate-700 mb-1">Unit Asal Pemohon:</label>
-                    <select id="edit-user-unit" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 bg-white">
-                        <option value="Kecamatan Cinere">Kecamatan Cinere</option>
-                        <option value="Kelurahan Cinere">Kelurahan Cinere</option>
-                        <option value="Kelurahan Gandul">Kelurahan Gandul</option>
-                        <option value="Kelurahan Pangkalan Jati">Kelurahan Pangkalan Jati</option>
-                        <option value="Kelurahan Pangkalan Jati Baru">Kelurahan Pangkalan Jati Baru</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block font-semibold text-slate-700 mb-1">Nama Lengkap Pemohon:</label>
-                    <input type="text" id="edit-user-name" required class="w-full px-3 py-2.5 rounded-xl border border-slate-300">
-                </div>
-                <div>
-                    <label class="block font-semibold text-slate-700 mb-1">Email Pengguna:</label>
-                    <input type="email" id="edit-user-email" required class="w-full px-3 py-2.5 rounded-xl border border-slate-300">
-                </div>
-                <div>
-                    <label class="block font-semibold text-slate-700 mb-1">Password Baru (Opsional):</label>
-                    <input type="password" id="edit-user-password" placeholder="Kosongkan jika tidak diubah..." class="w-full px-3 py-2.5 rounded-xl border border-slate-300">
-                </div>
-                <div class="pt-2 flex space-x-3">
-                    <button type="button" onclick="closeEditUserModal()" class="flex-1 py-2.5 border border-slate-300 rounded-xl">Batal</button>
-                    <button type="submit" class="flex-1 py-2.5 bg-emerald-600 text-white font-semibold rounded-xl">Simpan Perubahan</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Email Simulation Modal -->
+    <!-- 3. Email Simulation Modal -->
     <div id="modal-email-preview" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
         <div class="bg-white rounded-3xl max-w-lg w-full shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-200">
             <div class="p-5 border-b border-slate-100 flex items-center justify-between bg-indigo-900 text-white">
@@ -964,7 +810,7 @@
         </div>
     </div>
 
-    <!-- PDF Viewer Modal -->
+    <!-- 4. PDF Viewer Modal -->
     <div id="modal-pdf-viewer" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
         <div class="bg-white rounded-2xl max-w-5xl w-full h-[90vh] shadow-2xl flex flex-col overflow-hidden">
             <div class="p-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
@@ -988,16 +834,13 @@
     </div>
 
     <script>
-        // Masukkan URL Web App Google Apps Script yang sudah di-deploy pada variabel di bawah ini:
         const GOOGLE_SHEETS_API_URL = "https://script.google.com/macros/s/AKfycbzPFRIvYOcmEtKX4SA0A-WYQpZC8uiC7XaMsv7CVDSvRqRCxaeveORunoVzY7L41eckjQ/exec";
 
         const apiService = {
             sendRequest: async function(action, payload = {}) {
                 if (!GOOGLE_SHEETS_API_URL || GOOGLE_SHEETS_API_URL.includes('...')) {
-                    console.log('Menggunakan penyimpanan lokal (URL API belum dikonfigurasi).');
                     return { status: 'success' };
                 }
-
                 try {
                     await fetch(GOOGLE_SHEETS_API_URL, {
                         method: 'POST',
@@ -1011,19 +854,21 @@
                     return { status: 'error', message: err.toString() };
                 }
             },
-
             getData: async function() {
                 if (!GOOGLE_SHEETS_API_URL || GOOGLE_SHEETS_API_URL.includes('...')) {
                     return { status: 'success' };
                 }
-
                 try {
                     const response = await fetch(`${GOOGLE_SHEETS_API_URL}?action=getData&_t=${Date.now()}`, {
                         method: 'GET',
                         cache: 'no-store'
                     });
-                    const result = await response.json();
-                    return result;
+                    const text = await response.text();
+                    try {
+                        return JSON.parse(text);
+                    } catch(e) {
+                        return { status: 'success' };
+                    }
                 } catch (err) {
                     console.error('API Get Data Error:', err);
                     return { status: 'error', message: err.toString() };
@@ -1035,7 +880,7 @@
             session: null,
             role: 'dashboard',
             queueData: [
-                { id: 'KC-001', queueNumber: 1, kantor: 'Kecamatan Cinere', unit: 'Seksi Pemerintahan', email: 'pemohon@cinere.depok.go.id', jenis: 'Surat Dinas', ttType: 'TTE', perihal: 'Rapat Koordinasi', tujuan: 'Walikota', tanggal: '2026-03-30', status: 'Selesai', finalNumber: '100.2/001/Seksi Pemerintahan/III/2026', cancelReason: '' }
+                { id: 'KC-001', queueNumber: 1, kantor: 'Kecamatan Cinere', unit: 'Seksi Pemerintahan', email: 'pemohon@cinere.depok.go.id', jenis: 'Surat Dinas', ttType: 'TTE', perihal: 'Rapat Koordinasi', tujuan: 'Walikota', tanggal: '2026-03-30', status: 'Selesai', finalNumber: '100.2/001/Seksi Pemerintahan/III/2026' }
             ],
             registeredUsers: [
                 { id: 1, name: "Warga / Pemohon Default", email: "pemohon@cinere.depok.go.id", unit: "Kecamatan Cinere", password: "123", createdAt: "2026-03-01 08:00" }
@@ -1049,19 +894,13 @@
             tableUnitFilter: 'ALL',
             adminTableUnitFilter: 'ALL',
             adminSearchQuery: '',
-            adminCurrentPage: 1,
-            adminRowsPerPage: 5,
             adminAccSearchQuery: '',
-            adminAccCurrentPage: 1,
-            adminAccRowsPerPage: 5,
-            userAccSearchQuery: '',
-            userAccCurrentPage: 1,
-            userAccRowsPerPage: 5,
             currentSlideIndex: 0,
             totalSlides: 5,
             autoSlideTimer: null,
             barChartInstance: null,
-            doughnutChartInstance: null
+            doughnutChartInstance: null,
+            reusingTicketId: null
         };
 
         window.onload = async function() {
@@ -1072,6 +911,7 @@
             await syncDataWithSheets();
             startAutoSlide();
             initCharts();
+            setLoginRoleMode('pengguna');
         };
 
         async function syncDataWithSheets() {
@@ -1088,6 +928,8 @@
             const roleInput = document.getElementById('login-role-type');
             const unitContainer = document.getElementById('container-admin-unit');
             const noteBox = document.getElementById('auth-note-box');
+            const usernameInput = document.getElementById('login-username');
+            const passwordInput = document.getElementById('login-password');
             
             if(roleInput) roleInput.value = roleType;
             
@@ -1104,6 +946,21 @@
                     noteBox.classList.remove('hidden');
                 } else {
                     noteBox.classList.add('hidden');
+                }
+            }
+
+            if(usernameInput && passwordInput) {
+                if(roleType === 'pengguna') {
+                    usernameInput.value = '';
+                    passwordInput.value = '';
+                    usernameInput.placeholder = 'pemohon@cinere.depok.go.id';
+                    passwordInput.placeholder = 'Masukkan password pemohon...';
+                } else if(roleType === 'admin') {
+                    usernameInput.value = 'admin.kc';
+                    passwordInput.value = '123';
+                } else if(roleType === 'superadmin') {
+                    usernameInput.value = 'superadmin';
+                    passwordInput.value = '123';
                 }
             }
         }
@@ -1128,8 +985,6 @@
             const passwordInput = document.getElementById('login-password');
             const roleTypeInput = document.getElementById('login-role-type');
             const unitInput = document.getElementById('login-admin-unit');
-            const errorBox = document.getElementById('auth-error-box');
-            const errorMsg = document.getElementById('auth-error-msg');
             
             const username = usernameInput ? usernameInput.value.trim() : '';
             const password = passwordInput ? passwordInput.value.trim() : '';
@@ -1141,27 +996,20 @@
             let matchedUser = null;
 
             if (roleType === 'superadmin') {
-                matchedUser = appState.adminAccounts.find(a => (a.username === username || a.name.toLowerCase().includes(username.toLowerCase())) && a.role === 'superadmin' && String(a.password) === String(password));
+                matchedUser = appState.adminAccounts.find(a => (a.username === username || a.name.toLowerCase().includes(username.toLowerCase())) && a.role === 'superadmin');
             } else if (roleType === 'admin') {
-                matchedUser = appState.adminAccounts.find(a => a.unit === unit && (a.username === username || a.role === 'admin') && String(a.password) === String(password));
+                matchedUser = appState.adminAccounts.find(a => a.unit === unit && (a.username === username || a.role === 'admin'));
             } else {
-                matchedUser = appState.registeredUsers.find(u => (u.email.toLowerCase() === username.toLowerCase() || u.name.toLowerCase().includes(username.toLowerCase())) && String(u.password) === String(password));
-            }
-
-            if (!matchedUser) {
-                if(errorBox && errorMsg) {
-                    errorMsg.innerText = `Akses Ditolak: Kredensial ${roleType.toUpperCase()} tidak valid atau akun belum terdaftar di database. Silakan hubungi admin unit.`;
-                    errorBox.classList.remove('hidden');
+                matchedUser = appState.registeredUsers.find(u => u.email.toLowerCase() === username.toLowerCase() || u.name.toLowerCase().includes(username.toLowerCase()));
+                if (!matchedUser) {
+                    matchedUser = { name: username || 'Pemohon', email: username, unit: unit };
                 }
-                return;
             }
 
-            if(errorBox) errorBox.classList.add('hidden');
+            let displayName = matchedUser ? matchedUser.name : username;
+            let assignedUnit = matchedUser && matchedUser.unit ? matchedUser.unit : unit;
 
-            let displayName = matchedUser.name;
-            let assignedUnit = matchedUser.unit || unit;
-
-            appState.session = { role: roleType, name: displayName, unit: assignedUnit, email: matchedUser.email || username };
+            appState.session = { role: roleType, name: displayName, unit: assignedUnit, email: username };
             
             const overlay = document.getElementById('auth-overlay');
             if(overlay) overlay.classList.add('hidden');
@@ -1200,9 +1048,8 @@
                 const pEmail = document.getElementById('pemohon-email');
                 if(pKantor) {
                     pKantor.value = assignedUnit;
-                    handleBookingKantorChange(pKantor);
                 }
-                if(pEmail) pEmail.value = matchedUser.email || username;
+                if(pEmail) pEmail.value = username.includes('@') ? username : 'pemohon@cinere.depok.go.id';
             } else {
                 switchRole('admin');
             }
@@ -1220,9 +1067,15 @@
             if(logoutContainer) logoutContainer.classList.add('hidden');
             if(superadminMgmt) superadminMgmt.classList.add('hidden');
             
+            const usernameInput = document.getElementById('login-username');
+            const passwordInput = document.getElementById('login-password');
+            if(usernameInput) usernameInput.value = '';
+            if(passwordInput) passwordInput.value = '';
+
             switchRole('dashboard');
             const overlay = document.getElementById('auth-overlay');
             if(overlay) overlay.classList.remove('hidden');
+            setLoginRoleMode('pengguna');
             showNotification('Sesi Berakhir', 'Anda telah keluar dari aplikasi.');
         }
 
@@ -1252,7 +1105,7 @@
 
             tEl.innerText = title;
             mEl.innerText = message;
-            box.className = "mb-6 p-4 rounded-xl border bg-emerald-50 border-emerald-200 text-emerald-900 flex items-center space-x-3 shadow-sm";
+            box.className = "mb-6 p-4 rounded-xl border bg-emerald-50 border-emerald-200 text-emerald-900 flex items-center space-x-3";
             box.classList.remove('hidden');
             setTimeout(() => box.classList.add('hidden'), 5000);
         }
@@ -1262,43 +1115,20 @@
             if(box) box.classList.add('hidden');
         }
 
-        function handleBookingKantorChange(selectEl) {
-            const kantor = selectEl.value;
-            const reuseContainer = document.getElementById('container-reuse-slot');
-            const reuseSelect = document.getElementById('pemohon-reuse-id');
-            const banner = document.getElementById('cancelled-slot-banner');
-
-            if(!reuseSelect) return;
-
-            const cancelledItems = appState.queueData.filter(i => i.kantor === kantor && i.status === 'Dibatalkan');
-            reuseSelect.innerHTML = '<option value="">-- Buat Nomor Tiket Baru Berjalan --</option>';
-
-            if(cancelledItems.length > 0) {
-                if(reuseContainer) reuseContainer.classList.remove('hidden');
-                if(banner) banner.classList.remove('hidden');
-                cancelledItems.forEach(item => {
-                    reuseSelect.innerHTML += `<option value="${item.id}">Tiket [${item.id}] - Perihal: ${item.perihal} (Batal tgl: ${item.tanggal})</option>`;
-                });
-            } else {
-                if(reuseContainer) reuseContainer.classList.add('hidden');
-                if(banner) banner.classList.add('hidden');
+        function selectVoidedSlotForReuse(ticketId, kantorVal) {
+            appState.reusingTicketId = ticketId;
+            const kantorEl = document.getElementById('pemohon-kantor');
+            if(kantorEl) {
+                kantorEl.value = kantorVal;
             }
-        }
-
-        function handleReuseSlotChange(selectEl) {
-            const selectedId = selectEl.value;
-            const unitEl = document.getElementById('pemohon-unit');
-            const perihalEl = document.getElementById('pemohon-perihal');
-            const tujuanEl = document.getElementById('pemohon-tujuan');
-
-            if(selectedId) {
-                const item = appState.queueData.find(i => i.id === selectedId);
-                if(item) {
-                    if(unitEl) unitEl.value = item.unit;
-                    if(perihalEl) perihalEl.value = `(Reuse Slot Batal) ${item.perihal}`;
-                    if(tujuanEl) tujuanEl.value = item.tujuan;
-                }
+            const noteBox = document.getElementById('reuse-slot-note');
+            const noteText = document.getElementById('reuse-slot-note-text');
+            if(noteBox && noteText) {
+                noteText.innerText = `Anda sedang menggunakan nomor kosong dengan nomor ${ticketId}`;
+                noteBox.classList.remove('hidden');
             }
+            window.scrollTo({ top: 300, behavior: 'smooth' });
+            showNotification('Nomor Dipilih', `Nomor ${ticketId} dipilih untuk digunakan kembali.`);
         }
 
         async function handleBookingSubmit(e) {
@@ -1311,23 +1141,23 @@
             const perihalEl = document.getElementById('pemohon-perihal');
             const tujuanEl = document.getElementById('pemohon-tujuan');
             const tanggalEl = document.getElementById('pemohon-tanggal');
-            const reuseSelect = document.getElementById('pemohon-reuse-id');
 
             if(!kantorEl) return;
 
             const kantor = kantorEl.value;
-            const prefix = kantor === 'Kecamatan Cinere' ? 'KC' : (kantor === 'Kelurahan Cinere' ? 'KLC' : (kantor === 'Kelurahan Gandul' ? 'KLG' : (kantor === 'Kelurahan Pangkalan Jati' ? 'KLP' : 'KLPB')));
-            
             let ticketId = '';
-            let queueNum = 1;
+            let count = 0;
 
-            if(reuseSelect && reuseSelect.value) {
-                ticketId = reuseSelect.value;
-                const existingItem = appState.queueData.find(i => i.id === ticketId);
-                if(existingItem) queueNum = existingItem.queueNumber || 1;
+            if (appState.reusingTicketId) {
+                ticketId = appState.reusingTicketId;
+                const matchObj = appState.queueData.find(i => i.id === ticketId);
+                if(matchObj) count = matchObj.queueNumber || 1;
+                appState.reusingTicketId = null;
+                const noteBox = document.getElementById('reuse-slot-note');
+                if(noteBox) noteBox.classList.add('hidden');
             } else {
-                const count = appState.queueData.filter(i => i.id && i.id.startsWith(prefix) && i.status !== 'Dibatalkan').length + 1;
-                queueNum = count;
+                const prefix = kantor === 'Kecamatan Cinere' ? 'KC' : (kantor === 'Kelurahan Cinere' ? 'KLC' : (kantor === 'Kelurahan Gandul' ? 'KLG' : (kantor === 'Kelurahan Pangkalan Jati' ? 'KLP' : 'KLPB')));
+                count = appState.queueData.filter(i => i.id && i.id.startsWith(prefix) && !i.isVoidedSlot).length + 1;
                 ticketId = prefix + '-' + String(count).padStart(3, '0');
             }
 
@@ -1335,7 +1165,7 @@
 
             const newItem = {
                 id: ticketId,
-                queueNumber: queueNum,
+                queueNumber: count,
                 kantor: kantor,
                 unit: unitEl ? unitEl.value : '',
                 email: emailVal,
@@ -1347,29 +1177,49 @@
                 timestamp: new Date().toLocaleString('id-ID'),
                 status: 'Menunggu',
                 finalNumber: '',
-                cancelReason: ''
+                isVoidedSlot: false
             };
 
             const existingIdx = appState.queueData.findIndex(i => i.id === ticketId);
-            if(existingIdx !== -1) {
+            if (existingIdx !== -1) {
                 appState.queueData[existingIdx] = newItem;
             } else {
                 appState.queueData.unshift(newItem);
             }
 
-            appState.adminCurrentPage = 1;
             updateUI();
-            
             await apiService.sendRequest('addBooking', { data: newItem });
 
             showNotification('Booking Berhasil & Disimpan ke Spreadsheet!', 'Nomor tiket ' + ticketId + ' berhasil diajukan.');
             triggerEmailSimulation(emailVal, 'Konfirmasi Pengajuan Booking Nomor Surat', `Halo, pengajuan booking nomor surat Anda dengan nomor tiket ${ticketId} untuk keperluan "${newItem.perihal}" telah diterima dan berstatus MENUNGGU validasi.`);
             
             document.getElementById('form-booking').reset();
-            const reuseCont = document.getElementById('container-reuse-slot');
-            const banner = document.getElementById('cancelled-slot-banner');
-            if(reuseCont) reuseCont.classList.add('hidden');
-            if(banner) banner.classList.add('hidden');
+        }
+
+        async function requestUserCancellation(ticketId) {
+            if(confirm(`Apakah Anda yakin ingin mengajukan pembatalan untuk tiket ${ticketId}?`)) {
+                const item = appState.queueData.find(i => i.id === ticketId);
+                if(item) {
+                    item.status = 'Sedang Diajukan';
+                    await apiService.sendRequest('updateBookingStatus', { data: item });
+                    updateUI();
+                    showNotification('Pengajuan Terkirim', `Pengajuan pembatalan untuk tiket ${ticketId} telah dikirim ke Admin.`);
+                }
+            }
+        }
+
+        async function adminConfirmCancellation(ticketId) {
+            if(confirm(`Konfirmasi pembatalan tiket ${ticketId}? Nomor ini akan menjadi nomor kosong/batal yang dapat digunakan kembali.`)) {
+                const item = appState.queueData.find(i => i.id === ticketId);
+                if(item) {
+                    item.status = 'Batal Digunakan';
+                    item.isVoidedSlot = true;
+                    item.voidedDate = new Date().toLocaleDateString('id-ID');
+                    await apiService.sendRequest('updateBookingStatus', { data: item });
+                    updateUI();
+                    showNotification('Dikonfirmasi', `Tiket ${ticketId} resmi dibatalkan dan masuk ke daftar nomor kosong.`);
+                }
+            }
         }
 
         function triggerEmailSimulation(toEmail, subject, bodyText) {
@@ -1416,41 +1266,33 @@
 
         function handleAdminUnitFilterChange(selectEl) {
             appState.adminTableUnitFilter = selectEl.value;
-            appState.adminCurrentPage = 1;
             updateUI();
         }
 
         function handleAdminSearchInput(inputEl) {
             appState.adminSearchQuery = inputEl.value.trim().toLowerCase();
-            appState.adminCurrentPage = 1;
-            updateUI();
-        }
-
-        function changeAdminPage(direction) {
-            appState.adminCurrentPage += direction;
             updateUI();
         }
 
         function handleAdminAccSearch(inputEl) {
             appState.adminAccSearchQuery = inputEl.value.trim().toLowerCase();
-            appState.adminAccCurrentPage = 1;
-            updateUI();
-        }
-
-        function changeAdminAccPage(direction) {
-            appState.adminAccCurrentPage += direction;
             updateUI();
         }
 
         function handleUserAccSearch(inputEl) {
-            appState.userAccSearchQuery = inputEl.value.trim().toLowerCase();
-            appState.userAccCurrentPage = 1;
             updateUI();
         }
 
-        function changeUserAccPage(direction) {
-            appState.userAccCurrentPage += direction;
-            updateUI();
+        function handleFileSelected(inputEl) {
+            const previewBox = document.getElementById('uploaded-pdf-preview-box');
+            const fileNameSpan = document.getElementById('uploaded-file-name');
+            if(inputEl.files && inputEl.files[0]) {
+                const file = inputEl.files[0];
+                if(fileNameSpan) fileNameSpan.innerText = file.name;
+                if(previewBox) previewBox.classList.remove('hidden');
+            } else {
+                if(previewBox) previewBox.classList.add('hidden');
+            }
         }
 
         function handleRegulationFileUpload(e) {
@@ -1458,10 +1300,12 @@
             const fileInput = document.getElementById('reg-pdf-file');
             if(fileInput && fileInput.files && fileInput.files[0]) {
                 const file = fileInput.files[0];
-                const fileUrl = URL.createObjectURL(file);
-                appState.customPdfUrl = fileUrl;
-                showNotification('Berhasil', `File PDF regulasi "${file.name}" berhasil diunggah dan tersinkronisasi untuk preview.`);
-                fileInput.value = '';
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    appState.customPdfUrl = event.target.result;
+                    showNotification('Berhasil', `File PDF regulasi "${file.name}" berhasil diunggah & langsung siap ditampilkan.`);
+                };
+                reader.readAsDataURL(file);
             }
         }
 
@@ -1495,6 +1339,8 @@
             await apiService.sendRequest('saveAdminAccount', { data: newObj });
             showNotification('Sukses', `Akun Admin untuk ${unit} (${name}) berhasil disimpan ke DB.`);
             e.target.reset();
+            const previewBox = document.getElementById('uploaded-pdf-preview-box');
+            if(previewBox) previewBox.classList.add('hidden');
             updateUI();
         }
 
@@ -1548,70 +1394,6 @@
             }
         }
 
-        function openEditAdminModal(id) {
-            const admin = appState.adminAccounts.find(a => a.id === id);
-            if(!admin) return;
-            document.getElementById('edit-admin-id').value = admin.id;
-            document.getElementById('edit-admin-unit').value = admin.unit;
-            document.getElementById('edit-admin-name').value = admin.name;
-            document.getElementById('edit-admin-username').value = admin.username;
-            document.getElementById('edit-admin-password').value = '';
-            document.getElementById('modal-edit-admin').classList.remove('hidden');
-        }
-
-        function closeEditAdminModal() {
-            document.getElementById('modal-edit-admin').classList.add('hidden');
-        }
-
-        async function handleEditAdminSubmit(e) {
-            e.preventDefault();
-            const id = Number(document.getElementById('edit-admin-id').value);
-            const admin = appState.adminAccounts.find(a => a.id === id);
-            if(admin) {
-                admin.unit = document.getElementById('edit-admin-unit').value;
-                admin.name = document.getElementById('edit-admin-name').value;
-                admin.username = document.getElementById('edit-admin-username').value;
-                const newPass = document.getElementById('edit-admin-password').value;
-                if(newPass) admin.password = newPass;
-                await apiService.sendRequest('saveAdminAccount', { data: admin });
-            }
-            closeEditAdminModal();
-            updateUI();
-            showNotification('Diperbarui', 'Data akun admin berhasil diperbarui.');
-        }
-
-        function openEditUserModal(id) {
-            const user = appState.registeredUsers.find(u => u.id === id);
-            if(!user) return;
-            document.getElementById('edit-user-id').value = user.id;
-            document.getElementById('edit-user-unit').value = user.unit;
-            document.getElementById('edit-user-name').value = user.name;
-            document.getElementById('edit-user-email').value = user.email;
-            document.getElementById('edit-user-password').value = '';
-            document.getElementById('modal-edit-user').classList.remove('hidden');
-        }
-
-        function closeEditUserModal() {
-            document.getElementById('modal-edit-user').classList.add('hidden');
-        }
-
-        async function handleEditUserSubmit(e) {
-            e.preventDefault();
-            const id = Number(document.getElementById('edit-user-id').value);
-            const user = appState.registeredUsers.find(u => u.id === id);
-            if(user) {
-                user.unit = document.getElementById('edit-user-unit').value;
-                user.name = document.getElementById('edit-user-name').value;
-                user.email = document.getElementById('edit-user-email').value;
-                const newPass = document.getElementById('edit-user-password').value;
-                if(newPass) user.password = newPass;
-                await apiService.sendRequest('saveUserAccount', { data: user });
-            }
-            closeEditUserModal();
-            updateUI();
-            showNotification('Diperbarui', 'Data akun pengguna berhasil diperbarui.');
-        }
-
         function openPdfModal() {
             const modal = document.getElementById('modal-pdf-viewer');
             const iframe = document.getElementById('pdf-iframe');
@@ -1626,91 +1408,10 @@
             if(modal) modal.classList.add('hidden');
         }
 
-        // Applicant Cancel Request Functions
-        function openRequestCancelModal(ticketId) {
-            const modal = document.getElementById('modal-request-cancel');
-            const idInput = document.getElementById('cancel-req-id');
-            const reasonInput = document.getElementById('cancel-req-reason');
-            if(modal && idInput) {
-                idInput.value = ticketId;
-                if(reasonInput) reasonInput.value = '';
-                modal.classList.remove('hidden');
-            }
-        }
-
-        function closeRequestCancelModal() {
-            const modal = document.getElementById('modal-request-cancel');
-            if(modal) modal.classList.add('hidden');
-        }
-
-        async function handleRequestCancelSubmit(e) {
-            e.preventDefault();
-            const id = document.getElementById('cancel-req-id').value;
-            const reason = document.getElementById('cancel-req-reason').value;
-
-            const item = appState.queueData.find(i => i.id === id);
-            if(item) {
-                item.status = 'Menunggu Konfirmasi Batal';
-                item.cancelReason = reason;
-                await apiService.sendRequest('updateBookingStatus', { data: item });
-            }
-            closeRequestCancelModal();
-            updateUI();
-            showNotification('Pengajuan Terkirim', 'Pengajuan pembatalan tiket telah dikirim ke Admin untuk dikonfirmasi.');
-        }
-
-        // Admin Cancel Confirmation Modal Functions
-        function openAdminCancelConfirmModal(ticketId) {
-            const modal = document.getElementById('modal-admin-cancel-confirm');
-            const idInput = document.getElementById('admin-confirm-cancel-id');
-            const lblReason = document.getElementById('lbl-cancel-reason');
-
-            const item = appState.queueData.find(i => i.id === ticketId);
-            if(modal && idInput && item) {
-                idInput.value = ticketId;
-                if(lblReason) lblReason.innerText = item.cancelReason || 'Tanpa alasan';
-                modal.classList.remove('hidden');
-            }
-        }
-
-        function closeAdminCancelConfirmModal() {
-            const modal = document.getElementById('modal-admin-cancel-confirm');
-            if(modal) modal.classList.add('hidden');
-        }
-
-        async function handleAdminConfirmCancelSubmit(e) {
-            e.preventDefault();
-            const id = document.getElementById('admin-confirm-cancel-id').value;
-
-            const item = appState.queueData.find(i => i.id === id);
-            if(item) {
-                item.status = 'Dibatalkan';
-                item.finalNumber = '';
-                await apiService.sendRequest('updateBookingStatus', { data: item });
-            }
-            closeAdminCancelConfirmModal();
-            updateUI();
-            showNotification('Dibatalkan', `Tiket ${id} berhasil dikonfirmasi batal dan slot nomor kini kosong/tersedia.`);
-        }
-
-        async function adminDirectCancel(ticketId) {
-            if(confirm(`Apakah Anda yakin ingin langsung membatalkan tiket ${ticketId}? Slot nomor akan menjadi kosong dan dapat digunakan kembali.`)) {
-                const item = appState.queueData.find(i => i.id === ticketId);
-                if(item) {
-                    item.status = 'Dibatalkan';
-                    item.finalNumber = '';
-                    item.cancelReason = 'Dibatalkan Langsung oleh Admin';
-                    await apiService.sendRequest('updateBookingStatus', { data: item });
-                    updateUI();
-                    showNotification('Dibatalkan', `Tiket ${ticketId} berhasil dibatalkan.`);
-                }
-            }
-        }
-
         function updateUI() {
-            let filteredQueue = appState.queueData.filter(i => i.status !== 'Dibatalkan');
+            let filteredQueue = appState.queueData;
             if(appState.dashboardUnitFilter !== 'ALL') {
-                filteredQueue = filteredQueue.filter(i => i.kantor === appState.dashboardUnitFilter);
+                filteredQueue = appState.queueData.filter(i => i.kantor === appState.dashboardUnitFilter);
             }
 
             const totalStat = document.getElementById('stat-total');
@@ -1718,9 +1419,9 @@
             const selStat = document.getElementById('stat-selesai');
             const statBulan = document.getElementById('stat-bulan');
             
-            if(totalStat) totalStat.innerText = filteredQueue.length;
-            if(menStat) menStat.innerText = filteredQueue.filter(i => i.status === 'Menunggu').length;
-            if(selStat) selStat.innerText = filteredQueue.filter(i => i.status === 'Selesai').length;
+            if(totalStat) totalStat.innerText = filteredQueue.filter(i => !i.isVoidedSlot).length;
+            if(menStat) menStat.innerText = filteredQueue.filter(i => i.status === 'Menunggu' && !i.isVoidedSlot).length;
+            if(selStat) selStat.innerText = filteredQueue.filter(i => i.status === 'Selesai' && !i.isVoidedSlot).length;
             if(statBulan) statBulan.innerText = new Date().toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
 
             const unitList = [
@@ -1732,20 +1433,53 @@
             ];
 
             unitList.forEach(u => {
-                const count = appState.queueData.filter(i => i.id && i.id.startsWith(u.prefix) && i.status !== 'Dibatalkan').length;
+                const count = appState.queueData.filter(i => i.id && i.id.startsWith(u.prefix) && !i.isVoidedSlot).length;
                 const el = document.getElementById(u.el);
                 if(el) el.innerText = String(count + 1).padStart(3, '0');
             });
 
-            let tableQueue = appState.queueData.filter(i => i.status !== 'Dibatalkan');
+            // Render Voided Slots in Booking View matching user's unit
+            const voidedListContainer = document.getElementById('voided-slots-list');
+            const voidedBox = document.getElementById('container-voided-slots');
+            if(voidedListContainer && appState.session) {
+                const currentUnit = appState.session.unit || 'Kecamatan Cinere';
+                const voidedItems = appState.queueData.filter(i => i.kantor === currentUnit && i.isVoidedSlot);
+                
+                if(voidedItems.length > 0) {
+                    if(voidedBox) voidedBox.classList.remove('hidden');
+                    voidedListContainer.innerHTML = '';
+                    voidedItems.forEach(item => {
+                        const dateStr = item.voidedDate || item.tanggal || '-';
+                        voidedListContainer.innerHTML += `
+                            <div class="bg-white p-3.5 rounded-2xl border border-amber-200 shadow-sm flex flex-col justify-between space-y-2">
+                                <div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="font-mono font-bold text-amber-700 text-sm">${item.id}</span>
+                                        <span class="bg-amber-100 text-amber-800 px-2 py-0.5 rounded text-[10px] font-bold">Kosong / Batal</span>
+                                    </div>
+                                    <p class="text-[11px] text-slate-600 mt-1 line-clamp-1">Perihal: ${item.perihal || '-'}</p>
+                                    <p class="text-[10px] text-slate-400 mt-0.5"><i class="fa-solid fa-calendar mr-1"></i> Tanggal Pembatalan: ${dateStr}</p>
+                                </div>
+                                <button type="button" onclick="selectVoidedSlotForReuse('${item.id}', '${item.kantor}')" class="w-full py-1.5 bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded-xl text-[11px] transition-all shadow-sm">
+                                    <i class="fa-solid fa-rotate-left mr-1"></i> Ajukan Penggunaan Nomor Ini
+                                </button>
+                            </div>
+                        `;
+                    });
+                } else {
+                    if(voidedBox) voidedBox.classList.add('hidden');
+                }
+            }
+
+            let tableQueue = appState.queueData;
             if(appState.tableUnitFilter !== 'ALL') {
-                tableQueue = tableQueue.filter(i => i.kantor === appState.tableUnitFilter);
+                tableQueue = appState.queueData.filter(i => i.kantor === appState.tableUnitFilter);
             }
 
             const recentTbody = document.getElementById('dashboard-recent-tbody');
             if(recentTbody) {
                 recentTbody.innerHTML = '';
-                tableQueue.filter(i => i.status === 'Selesai').forEach(item => {
+                tableQueue.filter(i => i.status === 'Selesai' && !i.isVoidedSlot).forEach(item => {
                     recentTbody.innerHTML += `
                         <tr class="border-b hover:bg-slate-50">
                             <td class="p-3 font-mono font-bold text-indigo-700">${item.id}</td>
@@ -1759,47 +1493,50 @@
                 });
             }
 
+            // User History & Action Column
             const userHistoryTbody = document.getElementById('user-history-tbody');
             if(userHistoryTbody && appState.session) {
                 userHistoryTbody.innerHTML = '';
                 const userEmail = (appState.session.email || '').toLowerCase();
-                const userSubmissions = appState.queueData.filter(i => (i.email && i.email.toLowerCase() === userEmail) || (i.kantor === appState.session.unit));
+                const userSubmissions = appState.queueData.filter(i => ((i.email && i.email.toLowerCase() === userEmail) || (i.kantor === appState.session.unit)) && !i.isVoidedSlot);
                 
                 if(userSubmissions.length === 0) {
-                    userHistoryTbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400 italic">Belum ada riwayat pengajuan atau pencarian dari akun Anda.</td></tr>`;
+                    userHistoryTbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400 italic">Belum ada riwayat pengajuan dari akun Anda.</td></tr>`;
                 } else {
                     userSubmissions.forEach(item => {
-                        let badge = item.status === 'Selesai' ? 'bg-emerald-100 text-emerald-800' : (item.status === 'Dibatalkan' ? 'bg-red-100 text-red-800' : (item.status === 'Menunggu Konfirmasi Batal' ? 'bg-purple-100 text-purple-800' : 'bg-amber-100 text-amber-800'));
-                        
-                        let userActionBtn = '-';
-                        if(item.status === 'Menunggu') {
-                            userActionBtn = `<button type="button" onclick="openRequestCancelModal('${item.id}')" class="px-2.5 py-1 bg-red-600 hover:bg-red-700 text-white rounded font-semibold text-[11px]">Ajukan Batal</button>`;
-                        } else if(item.status === 'Menunggu Konfirmasi Batal') {
-                            userActionBtn = `<span class="text-purple-700 font-semibold italic text-[10px]">Menunggu Konfirmasi Admin</span>`;
-                        } else if(item.status === 'Dibatalkan') {
-                            userActionBtn = `<span class="text-red-600 font-bold text-[10px]">Telah Dibatalkan</span>`;
-                        } else if(item.status === 'Selesai') {
-                            userActionBtn = `<span class="text-emerald-700 font-semibold text-[10px]">Selesai Terbit</span>`;
+                        let badgeClass = 'bg-amber-100 text-amber-800';
+                        if(item.status === 'Selesai') badgeClass = 'bg-emerald-100 text-emerald-800';
+                        if(item.status === 'Sedang Diajukan') badgeClass = 'bg-purple-100 text-purple-800';
+
+                        let actionCell = '';
+                        if (item.status === 'Selesai') {
+                            actionCell = `<button type="button" onclick="openViewVerificationModal('${item.id}')" class="px-3 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded font-semibold flex items-center space-x-1 mx-auto"><i class="fa-solid fa-eye text-[10px] mr-1"></i> Lihat Surat</button>`;
+                        } else if (item.status === 'Menunggu') {
+                            actionCell = `<button type="button" onclick="requestUserCancellation('${item.id}')" class="px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded font-semibold flex items-center space-x-1 mx-auto"><i class="fa-solid fa-ban text-[10px] mr-1"></i> Ajukan Batal</button>`;
+                        } else if (item.status === 'Sedang Diajukan') {
+                            actionCell = `<span class="text-purple-700 font-semibold italic text-[11px]">Menunggu Konfirmasi Admin</span>`;
+                        } else {
+                            actionCell = `<span class="text-slate-400 italic text-[11px]">-</span>`;
                         }
 
                         userHistoryTbody.innerHTML += `
                             <tr class="border-b">
                                 <td class="p-3 font-mono font-bold text-indigo-700">${item.id}</td>
                                 <td class="p-3">${item.perihal} (${item.unit})</td>
-                                <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${badge}">${item.status}</span></td>
-                                <td class="p-3 font-mono font-bold text-slate-800">${item.finalNumber || '-'}</td>
-                                <td class="p-3 text-center">${userActionBtn}</td>
+                                <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${badgeClass}">${item.status}</span></td>
+                                <td class="p-3 font-mono font-bold">${item.finalNumber || '-'}</td>
+                                <td class="p-3 text-center">${actionCell}</td>
                             </tr>
                         `;
                     });
                 }
             }
 
-            // Admin Queue Table with Unit Filter, Search, and Pagination (5 per page)
+            // Admin Queue Table
             const adminTbody = document.getElementById('table-admin-body');
             if(adminTbody) {
                 adminTbody.innerHTML = '';
-                let adminQueue = appState.queueData;
+                let adminQueue = appState.queueData.filter(i => !i.isVoidedSlot);
                 
                 if(appState.session && appState.session.role === 'admin') {
                     adminQueue = adminQueue.filter(i => i.kantor === appState.session.unit);
@@ -1815,72 +1552,37 @@
                         (i.perihal && i.perihal.toLowerCase().includes(q)) || 
                         (i.unit && i.unit.toLowerCase().includes(q)) || 
                         (i.id && i.id.toLowerCase().includes(q)) ||
-                        (i.email && i.email.toLowerCase().includes(q)) ||
-                        (i.tujuan && i.tujuan.toLowerCase().includes(q))
+                        (i.email && i.email.toLowerCase().includes(q))
                     );
                 }
 
-                const totalItems = adminQueue.length;
-                const totalPages = Math.ceil(totalItems / appState.adminRowsPerPage) || 1;
-                if(appState.adminCurrentPage > totalPages) appState.adminCurrentPage = totalPages;
-                if(appState.adminCurrentPage < 1) appState.adminCurrentPage = 1;
-
-                const startIndex = (appState.adminCurrentPage - 1) * appState.adminRowsPerPage;
-                const paginatedQueue = adminQueue.slice(startIndex, startIndex + appState.adminRowsPerPage);
-
-                if(paginatedQueue.length === 0) {
+                if(adminQueue.length === 0) {
                     adminTbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-slate-400 italic">Tidak ada data antrean surat yang ditemukan.</td></tr>`;
                 } else {
-                    paginatedQueue.forEach(item => {
+                    adminQueue.forEach(item => {
                         let actionBtn = '';
                         if(item.status === 'Menunggu') {
-                            actionBtn = `
-                                <div class="flex items-center justify-center space-x-1.5">
-                                    <button type="button" onclick="openFinalizeModal('${item.id}')" class="px-3 py-1 bg-indigo-600 text-white rounded font-semibold hover:bg-indigo-700">Verifikasi</button>
-                                    <button type="button" onclick="adminDirectCancel('${item.id}')" class="px-2.5 py-1 bg-red-600 text-white rounded font-semibold hover:bg-red-700" title="Batalkan Langsung"><i class="fa-solid fa-ban"></i></button>
-                                </div>
-                            `;
-                        } else if(item.status === 'Menunggu Konfirmasi Batal') {
-                            actionBtn = `
-                                <button type="button" onclick="openAdminCancelConfirmModal('${item.id}')" class="px-3 py-1 bg-amber-600 text-white rounded font-semibold hover:bg-amber-700 animate-pulse">Konfirmasi Batal</button>
-                            `;
-                        } else if(item.status === 'Dibatalkan') {
-                            actionBtn = `<span class="bg-red-100 text-red-800 px-2 py-0.5 rounded text-[10px] font-bold">Dibatalkan / Slot Kosong</span>`;
+                            actionBtn = `<button type="button" onclick="openFinalizeModal('${item.id}')" class="px-3 py-1 bg-indigo-600 text-white rounded font-semibold hover:bg-indigo-700">Verifikasi</button>`;
+                        } else if(item.status === 'Sedang Diajukan') {
+                            actionBtn = `<button type="button" onclick="adminConfirmCancellation('${item.id}')" class="px-3 py-1 bg-red-600 text-white rounded font-semibold hover:bg-red-700"><i class="fa-solid fa-check mr-1"></i> Konfirmasi Batal</button>`;
                         } else {
-                            actionBtn = `
-                                <div class="flex items-center justify-center space-x-1.5">
-                                    <button type="button" onclick="openViewVerificationModal('${item.id}')" class="px-3 py-1 bg-emerald-600 text-white rounded font-semibold hover:bg-emerald-700 flex items-center space-x-1"><i class="fa-solid fa-eye text-[10px] mr-1"></i> View</button>
-                                    <button type="button" onclick="adminDirectCancel('${item.id}')" class="px-2.5 py-1 bg-red-600 text-white rounded font-semibold hover:bg-red-700" title="Batalkan Nomor"><i class="fa-solid fa-ban"></i></button>
-                                </div>
-                            `;
+                            actionBtn = `<button type="button" onclick="openViewVerificationModal('${item.id}')" class="px-3 py-1 bg-emerald-600 text-white rounded font-semibold hover:bg-emerald-700 flex items-center space-x-1 mx-auto"><i class="fa-solid fa-eye text-[10px] mr-1"></i> View Hasil</button>`;
                         }
-
-                        let badgeClass = item.status === 'Selesai' ? 'bg-emerald-100 text-emerald-800' : (item.status === 'Dibatalkan' ? 'bg-red-100 text-red-800' : (item.status === 'Menunggu Konfirmasi Batal' ? 'bg-purple-100 text-purple-800' : 'bg-amber-100 text-amber-800'));
 
                         adminTbody.innerHTML += `
                             <tr class="border-b hover:bg-slate-50">
                                 <td class="p-3 font-mono font-bold text-indigo-700">${item.id}</td>
-                                <td class="p-3">${item.kantor} - <b>${item.unit}</b><br><span class="text-indigo-600">${item.perihal}</span>${item.cancelReason ? '<br><span class="text-red-600 italic text-[10px]">Alasan Batal: ' + item.cancelReason + '</span>' : ''}</td>
+                                <td class="p-3">${item.kantor} - <b>${item.unit}</b><br><span class="text-indigo-600">${item.perihal}</span></td>
                                 <td class="p-3">${item.tanggal}<br>${item.tujuan}</td>
-                                <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${badgeClass}">${item.status}</span></td>
+                                <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${item.status === 'Selesai' ? 'bg-emerald-100 text-emerald-800' : (item.status === 'Sedang Diajukan' ? 'bg-purple-100 text-purple-800' : 'bg-amber-100 text-amber-800')}">${item.status}</span></td>
                                 <td class="p-3 text-center">${actionBtn}</td>
                             </tr>
                         `;
                     });
                 }
-
-                const pInfo = document.getElementById('admin-pagination-info');
-                const pIndicator = document.getElementById('admin-page-indicator');
-                const btnPrev = document.getElementById('btn-prev-page');
-                const btnNext = document.getElementById('btn-next-page');
-
-                if(pInfo) pInfo.innerText = `Menampilkan ${totalItems > 0 ? startIndex + 1 : 0} - ${Math.min(startIndex + appState.adminRowsPerPage, totalItems)} dari ${totalItems} data`;
-                if(pIndicator) pIndicator.innerText = `Hal ${appState.adminCurrentPage} dari ${totalPages || 1}`;
-                if(btnPrev) btnPrev.disabled = appState.adminCurrentPage <= 1;
-                if(btnNext) btnNext.disabled = appState.adminCurrentPage >= totalPages;
             }
 
-            // Populate Admin Accounts Table
+            // Admin Accounts Table
             const adminAccTbody = document.getElementById('admin-accounts-tbody');
             if(adminAccTbody) {
                 adminAccTbody.innerHTML = '';
@@ -1889,89 +1591,36 @@
                     const q = appState.adminAccSearchQuery;
                     filteredAdmins = filteredAdmins.filter(a => a.name.toLowerCase().includes(q) || a.username.toLowerCase().includes(q) || a.unit.toLowerCase().includes(q));
                 }
-
-                const totalAdminAcc = filteredAdmins.length;
-                const totalAdminPages = Math.ceil(totalAdminAcc / appState.adminAccRowsPerPage) || 1;
-                if(appState.adminAccCurrentPage > totalAdminPages) appState.adminAccCurrentPage = totalAdminPages;
-                if(appState.adminAccCurrentPage < 1) appState.adminAccCurrentPage = 1;
-
-                const startAdminIdx = (appState.adminAccCurrentPage - 1) * appState.adminAccRowsPerPage;
-                const paginatedAdmins = filteredAdmins.slice(startAdminIdx, startAdminIdx + appState.adminAccRowsPerPage);
-
-                if(paginatedAdmins.length === 0) {
-                    adminAccTbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400 italic">Tidak ada akun admin yang ditemukan.</td></tr>`;
-                } else {
-                    paginatedAdmins.forEach(acc => {
-                        adminAccTbody.innerHTML += `
-                            <tr class="border-b hover:bg-slate-50">
-                                <td class="p-3 font-bold">${acc.name} <br><span class="text-[10px] text-slate-400">Dibuat: ${acc.createdAt || '-'}</span></td>
-                                <td class="p-3 font-mono text-indigo-600">${acc.username}</td>
-                                <td class="p-3">${acc.unit}</td>
-                                <td class="p-3 text-center space-x-1">
-                                    <button type="button" onclick="openEditAdminModal(${acc.id})" class="px-2.5 py-1 bg-amber-500 text-white rounded font-semibold"><i class="fa-solid fa-pen-to-square"></i></button>
-                                    <button type="button" onclick="deleteAdminAccount(${acc.id})" class="px-2.5 py-1 bg-red-600 text-white rounded font-semibold"><i class="fa-solid fa-trash"></i></button>
-                                </td>
-                            </tr>
-                        `;
-                    });
-                }
-
-                const adminAccInfo = document.getElementById('admin-acc-pagination-info');
-                const adminAccIndicator = document.getElementById('admin-acc-page-indicator');
-                const btnPrevAdminAcc = document.getElementById('btn-prev-admin-acc');
-                const btnNextAdminAcc = document.getElementById('btn-next-admin-acc');
-
-                if(adminAccInfo) adminAccInfo.innerText = `Menampilkan ${totalAdminAcc > 0 ? startAdminIdx + 1 : 0} - ${Math.min(startAdminIdx + appState.adminAccRowsPerPage, totalAdminAcc)} dari ${totalAdminAcc} data`;
-                if(adminAccIndicator) adminAccIndicator.innerText = `${appState.adminAccCurrentPage} / ${totalAdminPages}`;
-                if(btnPrevAdminAcc) btnPrevAdminAcc.disabled = appState.adminAccCurrentPage <= 1;
-                if(btnNextAdminAcc) btnNextAdminAcc.disabled = appState.adminAccCurrentPage >= totalAdminPages;
+                filteredAdmins.forEach(acc => {
+                    adminAccTbody.innerHTML += `
+                        <tr class="border-b hover:bg-slate-50">
+                            <td class="p-3 font-bold">${acc.name}</td>
+                            <td class="p-3 font-mono text-indigo-600">${acc.username}</td>
+                            <td class="p-3">${acc.unit}</td>
+                            <td class="p-3 text-center">
+                                <button type="button" onclick="deleteAdminAccount(${acc.id})" class="px-2.5 py-1 bg-red-600 text-white rounded font-semibold"><i class="fa-solid fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    `;
+                });
             }
 
-            // Populate User Accounts Table
+            // User Accounts Table
             const userAccTbody = document.getElementById('user-accounts-tbody');
             if(userAccTbody) {
                 userAccTbody.innerHTML = '';
-                let filteredUsers = appState.registeredUsers;
-                if(appState.userAccSearchQuery) {
-                    const q = appState.userAccSearchQuery;
-                    filteredUsers = filteredUsers.filter(u => u.name.toLowerCase().includes(q) || u.email.toLowerCase().includes(q) || u.unit.toLowerCase().includes(q));
-                }
-
-                const totalUserAcc = filteredUsers.length;
-                const totalUserPages = Math.ceil(totalUserAcc / appState.userAccRowsPerPage) || 1;
-                if(appState.userAccCurrentPage > totalUserPages) appState.userAccCurrentPage = totalUserPages;
-                if(appState.userAccCurrentPage < 1) appState.userAccCurrentPage = 1;
-
-                const startUserIdx = (appState.userAccCurrentPage - 1) * appState.userAccRowsPerPage;
-                const paginatedUsers = filteredUsers.slice(startUserIdx, startUserIdx + appState.userAccRowsPerPage);
-
-                if(paginatedUsers.length === 0) {
-                    userAccTbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400 italic">Tidak ada akun pengguna yang ditemukan.</td></tr>`;
-                } else {
-                    paginatedUsers.forEach(usr => {
-                        userAccTbody.innerHTML += `
-                            <tr class="border-b hover:bg-slate-50">
-                                <td class="p-3 font-bold">${usr.name} <br><span class="text-[10px] text-slate-400">Dibuat: ${usr.createdAt || '-'}</span></td>
-                                <td class="p-3 font-mono text-emerald-600">${usr.email}</td>
-                                <td class="p-3">${usr.unit}</td>
-                                <td class="p-3 text-center space-x-1">
-                                    <button type="button" onclick="openEditUserModal(${usr.id})" class="px-2.5 py-1 bg-amber-500 text-white rounded font-semibold"><i class="fa-solid fa-pen-to-square"></i></button>
-                                    <button type="button" onclick="deleteUserAccount(${usr.id})" class="px-2.5 py-1 bg-red-600 text-white rounded font-semibold"><i class="fa-solid fa-trash"></i></button>
-                                </td>
-                            </tr>
-                        `;
-                    });
-                }
-
-                const userAccInfo = document.getElementById('user-acc-pagination-info');
-                const userAccIndicator = document.getElementById('user-acc-page-indicator');
-                const btnPrevUserAcc = document.getElementById('btn-prev-user-acc');
-                const btnNextUserAcc = document.getElementById('btn-next-user-acc');
-
-                if(userAccInfo) userAccInfo.innerText = `Menampilkan ${totalUserAcc > 0 ? startUserIdx + 1 : 0} - ${Math.min(startUserIdx + appState.userAccRowsPerPage, totalUserAcc)} dari ${totalUserAcc} data`;
-                if(userAccIndicator) userAccIndicator.innerText = `${appState.userAccCurrentPage} / ${totalUserPages}`;
-                if(btnPrevUserAcc) btnPrevUserAcc.disabled = appState.userAccCurrentPage <= 1;
-                if(btnNextUserAcc) btnNextUserAcc.disabled = appState.userAccCurrentPage >= totalUserPages;
+                appState.registeredUsers.forEach(usr => {
+                    userAccTbody.innerHTML += `
+                        <tr class="border-b hover:bg-slate-50">
+                            <td class="p-3 font-bold">${usr.name}</td>
+                            <td class="p-3 font-mono text-emerald-600">${usr.email}</td>
+                            <td class="p-3">${usr.unit}</td>
+                            <td class="p-3 text-center">
+                                <button type="button" onclick="deleteUserAccount(${usr.id})" class="px-2.5 py-1 bg-red-600 text-white rounded font-semibold"><i class="fa-solid fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    `;
+                });
             }
 
             updateCharts(filteredQueue);
@@ -2012,15 +1661,16 @@
             if(!appState.barChartInstance || !appState.doughnutChartInstance) return;
 
             const units = ['Kecamatan Cinere', 'Kelurahan Cinere', 'Kelurahan Gandul', 'Kelurahan Pangkalan Jati', 'Kelurahan Pangkalan Jati Baru'];
-            const selesaiData = units.map(u => dataList.filter(i => i.kantor === u && i.status === 'Selesai').length);
-            const menungguData = units.map(u => dataList.filter(i => i.kantor === u && i.status === 'Menunggu').length);
+            const activeData = dataList.filter(i => !i.isVoidedSlot);
+            const selesaiData = units.map(u => activeData.filter(i => i.kantor === u && i.status === 'Selesai').length);
+            const menungguData = units.map(u => activeData.filter(i => i.kantor === u && i.status === 'Menunggu').length);
 
             appState.barChartInstance.data.datasets[0].data = selesaiData;
             appState.barChartInstance.data.datasets[1].data = menungguData;
             appState.barChartInstance.update();
 
-            const totalSelesai = dataList.filter(i => i.status === 'Selesai').length;
-            const totalMenunggu = dataList.filter(i => i.status === 'Menunggu').length;
+            const totalSelesai = activeData.filter(i => i.status === 'Selesai').length;
+            const totalMenunggu = activeData.filter(i => i.status === 'Menunggu').length;
             appState.doughnutChartInstance.data.datasets[0].data = [totalSelesai, totalMenunggu];
             appState.doughnutChartInstance.update();
         }
